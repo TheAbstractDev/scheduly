@@ -7,8 +7,22 @@ var path = require('path')
 var _ = require('lodash')
 var fs = require('fs')
 var md5 = require('md5')
+var Agenda = require('agenda')
 var app = express()
+var mongoConnectionString = "mongodb://mongo-agenda/agenda";
+var agenda = new Agenda({db: {address: mongoConnectionString}})
+var rp = require('request-promise')
+// var MongoClient = require('mongodb').MongoClient
+// var assert = require('assert')
 
+// MongoClient.connect(mongoConnectionString, function(err, db) {
+//   console.log("Connected correctly to server.");
+// })
+
+function performJob(jobID, scheduling) {
+  agenda.schedule(scheduling, jobID)
+  agenda.start()
+}
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -28,6 +42,36 @@ app.get('/', function (req, res) {
   res.render('index', {'title': 'Express'})
 })
 
+app.post('/webhook', function (req, res) {
+  if (req.body.url && req.body.scheduling && req.body.body) {
+    var url = req.body.url
+    var scheduling = req.body.scheduling
+    var body = req.body.body
+    var jobID = md5(url).substring(5, 0)
+    
+    agenda.define(jobID, function (job, done) {
+      var options = {
+        method: 'POST',
+        uri: url,
+        body: body,
+        json: true
+      }
+      rp(options)
+      .then(function () {
+        console.log('success')
+      })
+      .catch(function (err) {
+        res.render('error', {message: err})
+      })
+      done()
+    })
+
+    performJob(jobID, scheduling)
+    res.sendStatus(200)
+  } else {
+    res.render('error', {message: 'no parameters'})
+  }
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -35,7 +79,6 @@ app.use(function(req, res, next) {
   err.status = 404
   next(err)
 })
-
 
 // error handlers
 

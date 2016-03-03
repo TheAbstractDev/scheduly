@@ -9,20 +9,7 @@ var fs = require('fs')
 var md5 = require('md5')
 var Agenda = require('agenda')
 var app = express()
-var mongoConnectionString = "mongodb://mongo-agenda/agenda";
-var agenda = new Agenda({db: {address: mongoConnectionString}})
-var rp = require('request-promise')
-// var MongoClient = require('mongodb').MongoClient
-// var assert = require('assert')
-
-// MongoClient.connect(mongoConnectionString, function(err, db) {
-//   console.log("Connected correctly to server.");
-// })
-
-function performJob(jobID, scheduling) {
-  agenda.schedule(scheduling, jobID)
-  agenda.start()
-}
+var JobManager = require('./job-manager')
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -48,25 +35,9 @@ app.post('/webhook', function (req, res) {
     var scheduling = req.body.scheduling
     var body = req.body.body
     var jobID = md5(url).substring(5, 0)
-    
-    agenda.define(jobID, function (job, done) {
-      var options = {
-        method: 'POST',
-        uri: url,
-        body: body,
-        json: true
-      }
-      rp(options)
-      .then(function () {
-        console.log('success')
-      })
-      .catch(function (err) {
-        res.render('error', {message: err})
-      })
-      done()
-    })
 
-    performJob(jobID, scheduling)
+    JobManager.createNewPostRequestWithData(jobID, url, body)
+    JobManager.performJob(jobID, scheduling)
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})

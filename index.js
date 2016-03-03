@@ -24,6 +24,7 @@ app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
 
 app.get('/', function (req, res) {
+  JobManager.getAllJobs()
   res.render('index', {'title': 'Express'})
 })
 
@@ -35,7 +36,7 @@ app.post('/webhook', function (req, res) {
     var jobID = md5(url).substring(5, 0)
 
     JobManager.createNewPostRequestWithData(jobID, url, body)
-    JobManager.performJob(jobID, scheduling)
+    JobManager.scheduleJobAt(jobID, scheduling)
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})

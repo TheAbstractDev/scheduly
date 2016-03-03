@@ -4,7 +4,7 @@ var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
 
 module.exports = {
-	createNewPostRequestWithData: function (jobID, url, body) {
+	createNewPostRequestWithData: function (jobID, url, body, scheduling) {
 		agenda.define(jobID, function (job, done) {
       var options = {
         method: 'POST',
@@ -19,17 +19,33 @@ module.exports = {
       .catch(function (err) {
         res.render('error', {message: err})
       })
-      done()
+     	var newJob = agenda.create(jobID)
+		  newJob.save()
+		  done()
     })
 	},
-	performJob: function (jobID, scheduling) {
-	  var newJob = agenda.create(jobID)
-	  newJob.repeatEvery(scheduling).save()
+	performJobEvery: function (jobID, scheduling) {
+	  agenda.every(scheduling, jobID)
 	  agenda.start()
-	  // agenda.jobs({'name': jobID}, function (err, jobs) {
-	  // 	console.log(jobs)
-	  // })
 	},
-	getJobs: function () {
+	scheduleJobAt: function (jobID, scheduling) {
+	  agenda.schedule(scheduling, jobID)
+	  agenda.start()
+	},
+	performJobNow: function (jobID) {
+	  agenda.now(jobID)
+	  agenda.start()
+	},
+	getAllJobs: function () {
+		agenda.jobs({}, function (err, jobs) {
+			for (var i = 0; i < jobs.length; i++) {
+				console.log(jobs[i].attrs.name)
+			}
+		})
+	},
+	removeAllJobs: function () {
+		agenda.purge(function(err, numRemoved) {
+			return
+		})
 	}
 }

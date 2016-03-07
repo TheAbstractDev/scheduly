@@ -1,2 +1,18 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+{{#if jobs}}
+  <button class="removeAll">Remove all jobs</button>
+  <div id="jobs">
+    {{#each jobs}}
+      <div class="job">
+        <h2 class="name">URL: {{url}}</h2>
+          <p class="state">state: {{state}}</p>
+          <p class="next">nextRunAt: {{nextRunAt}}</p>
+        {{#if lastRunAt}}
+          <p class="last-run">lastRunAt: {{lastRunAt}}</p>
+          <p class="last-finished">lastFinishedAt: {{lastFinishedAt}}</p>
+        {{/if}}
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <h2 class="title">{{title}}</h2>
+{{/if}}

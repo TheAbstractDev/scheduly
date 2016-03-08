@@ -26,9 +26,9 @@ module.exports = {
   scheduleJobOnceAt: function (jobID, url, body, scheduling) {
     var requestState
     this.createNewPostRequestWithData(jobID, url, body, function (state) {
-      requestState = state
+      var newJob = agenda.create(jobID, {url: url, state: state})
     })
-    agenda.schedule(scheduling, jobID, {url: url, state: requestState})
+    agenda.schedule(scheduling, jobID)
     agenda.start()
   },
   scheduleJobNow: function (jobID, url, body) {
@@ -78,7 +78,7 @@ module.exports = {
 	},
 	removeAllJobs: function () {
 		agenda.purge(function(err, numRemoved) {
-			if (err) {console.log(err)}
+			if (err) return err
 			return
 		})
 	}

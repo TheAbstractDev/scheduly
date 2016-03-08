@@ -36,7 +36,13 @@ app.post('/webhook', function (req, res) {
     var body = req.body.body
     var jobID = md5(url).substring(5, 0)
 
-    req.body.repeat === 'true' ? JobManager.schedulejobEvery(jobID, url, body, scheduling) : JobManager.scheduleJobOnceAt(jobID, url, body, scheduling)
+    if (req.body.repeat === 'true') {
+      JobManager.schedulejobEvery(jobID, url, body, scheduling)
+    } else if (req.body.repeat === 'false') {
+      JobManager.scheduleJobOnceAt(jobID, url, body, scheduling)
+    } else {
+      res.render('error', {message: 'repeat must be true or false'})
+    }
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})

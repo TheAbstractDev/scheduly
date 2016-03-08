@@ -1,28 +1,21 @@
 var Agenda = require('agenda')
 var mongoConnectionString = "mongodb://mongo-agenda/agenda";
 var agenda = new Agenda({db: {address: mongoConnectionString}})
-var rp = require('request-promise')
+var request = require('request')
 
 module.exports = {
 	createNewPostRequestWithData: function (jobID, url, body, callback) {
-    agenda.define(jobID, function (job, done) {
-      var options = {
-        method: 'POST',
-        uri: url,
-        body: body,
-        json: true
-      }
-      rp(options)
-      .then(function () {
-        callback('completed')
+    agenda.define(jobID, function (job) {
+      request.post(url, {form: body}, function (err) {
+        if (!err) {
+          return callback('completed')
+        } else {
+          return callback('failed: ' + err)
+        }
       })
-      .catch(function (err) {
-        callback('failed')
-      })
-		  done()
     })
-	},
-	schedulejobEvery: function (jobID, url, body, scheduling) {
+  },
+  schedulejobEvery: function (jobID, url, body, scheduling) {
     this.createNewPostRequestWithData(jobID, url, body, function (state) {
       var newJob = agenda.create(jobID, {url: url, state: state})
       newJob.save()
@@ -31,19 +24,19 @@ module.exports = {
     agenda.start()
   },
   scheduleJobOnceAt: function (jobID, url, body, scheduling) {
+    var requestState
     this.createNewPostRequestWithData(jobID, url, body, function (state) {
-      var newJob = agenda.create(jobID, {url: url, state: state})
-      newJob.save()
+      requestState = state
     })
-    agenda.schedule(scheduling, jobID)
-	  agenda.start()
-	},
-	scheduleJobNow: function (jobID, url, body) {
+    agenda.schedule(scheduling, jobID, {url: url, state: requestState})
+    agenda.start()
+  },
+  scheduleJobNow: function (jobID, url, body) {
+    var requestState
     this.createNewPostRequestWithData(jobID, url, body, function (state) {
-      var newJob = agenda.create(jobID, {url: url, state: state})
-      newJob.save()
+      requestState = state
     })
-    agenda.now(jobID)
+    agenda.now(jobID, {url: url, state: requestState})
 	  agenda.start()
 	},
 	getAllJobs: function (callback) {

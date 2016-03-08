@@ -32,7 +32,6 @@ module.exports = {
   },
   scheduleJobOnceAt: function (jobID, url, body, scheduling) {
     this.createNewPostRequestWithData(jobID, url, body, function (state) {
-      console.log(state)
       var newJob = agenda.create(jobID, {url: url, state: state})
       newJob.save()
     })
@@ -50,33 +49,33 @@ module.exports = {
 	getAllJobs: function (callback) {
     var jobsArray = []
     agenda.jobs({}, function (err, jobs) {
-			for (var i = 0; i < jobs.length; i++) {
+			for (var i = 1; i < jobs.length; i++) {
         if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {
-  				if (i <= 0) {
-            jobsArray[i] = {
-              lastRunAt: jobs[i].attrs.lastRunAt,
-              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
-              nextRunAt: jobs[i].attrs.nextRunAt
-            }
-          } else {
+          if (jobs[i].attrs.data) {
             jobsArray[i] = {
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt,
               lastFinishedAt: jobs[i].attrs.lastFinishedAt,
               nextRunAt: jobs[i].attrs.nextRunAt,
               state: jobs[i].attrs.data.state
+            }
+          } else {
+            jobsArray[i] = {
+              lastRunAt: jobs[i].attrs.lastRunAt,
+              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
+              nextRunAt: jobs[i].attrs.nextRunAt
             }
           }
         } else {
-          if (i <= 0) {
-            jobsArray[i] = {
-              nextRunAt: jobs[i].attrs.nextRunAt
-            }
-          } else {
+          if (jobs[i].attrs.data) {
             jobsArray[i] = {
               url: jobs[i].attrs.data.url,
               nextRunAt: jobs[i].attrs.nextRunAt,
               state: jobs[i].attrs.data.state
+            }
+          } else {
+            jobsArray[i] = {
+              nextRunAt: jobs[i].attrs.nextRunAt,
             }
           }
         }

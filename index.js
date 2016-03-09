@@ -7,7 +7,8 @@ var _ = require('lodash')
 var fs = require('fs')
 var md5 = require('md5')
 var app = express()
-var JobManager = require('./job-manager')
+var index = require('./routes/index')
+var webhook = require('./routes/webhook')
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -15,6 +16,8 @@ hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize 
   return '/assets' + filePath + '?v=' + md5(file).substring(10, 0)
 }))
 
+app.use('/', index)
+app.use('/webhook', webhook)
 app.use('/assets/', express.static(path.join(__dirname, '/assets', process.env.NODE_ENV === 'production' ? 'prod' : 'dev')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -22,36 +25,6 @@ app.use(bodyParser.urlencoded({
 }))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
-
-app.get('/', function (req, res) {
-  JobManager.getAllJobs(function (data) {
-    data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
-  })
-})
-
-app.post('/webhook', function (req, res) {
-  if (req.body.url && req.body.scheduling && req.body.body) {
-    var url = req.body.url
-    var scheduling = req.body.scheduling
-    var body = req.body.body
-    var jobID = md5(url).substring(5, 0)
-
-    if (req.body.repeat === 'true') {
-      JobManager.schedulejobEvery(jobID, url, body, scheduling)
-    } else if (req.body.repeat === 'false') {
-      JobManager.scheduleJobOnceAt(jobID, url, body, scheduling)
-    } else {
-      res.render('error', {message: 'repeat must be true or false'})
-    }
-    res.sendStatus(200)
-  } else {
-    res.render('error', {message: 'no parameters'})
-  }
-})
-
-app.delete('/webhook', function (req, res) {
-  JobManager.removeAllJobs()
-})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -92,3 +65,5 @@ app.listen(8080, function () {
     process.exit(1)
   }
 })
+
+module.exports = app

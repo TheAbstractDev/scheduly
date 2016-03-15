@@ -22,12 +22,9 @@ router.route('/')
     JobManager.removeAllJobs()
   })
 
-router.route('/:name')
+router.route('/:id/:name')
   .delete(function (req, res) {
-    if (req.params.name) {
-      var jobName = req.params.name
-      JobManager.removeJob(jobName)
-    }
+    if (req.params.name && req.params.id) {JobManager.removeJob(req.params.id, req.params.name)}
   })
 
 module.exports = router

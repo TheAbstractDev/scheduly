@@ -1,12 +1,12 @@
 var Agenda = require('agenda')
 var mongoConnectionString = "mongodb://mongo-agenda/agenda";
-var agenda = new Agenda({db: {address: mongoConnectionString, options: {server: {auto_reconnect: true}}}})
+var agenda = new Agenda({db: {address: mongoConnectionString}})
 var request = require('request')
 
 module.exports = {
   defineJob: function (jobID, url, body, scheduling) {
     agenda.define(jobID, function (job, done) {
-      console.log('lol')
+      request.post(url, {form: body})
       done()
     })
   },
@@ -65,16 +65,21 @@ module.exports = {
     })
 	},
   removeJob: function (name) {
-    agenda.cancel({name: name}, function(err) {
-      if (err) console.log(err)
-      return
+    agenda.jobs({name: name}, function (err, job) {
+      console.log(job)
     })
   },
   scheduleJob: function (jobID, url, body, scheduling) {
     this.defineJob(jobID, url, body, scheduling)
     var newJob = agenda.create(jobID, {url: url, state: 'test'})
-    newJob.repeatEvery(scheduling).save()
+    newJob.repeatEvery(scheduling, {
+      timezone: 'Europe/Paris'
+    })
+    newJob.save()
     // agenda.every(scheduling, jobID)
-    agenda.start()
   }
 }
+
+agenda.on('ready', function () {
+  agenda.start()
+})

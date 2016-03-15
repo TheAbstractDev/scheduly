@@ -6,8 +6,7 @@ var request = require('request')
 module.exports = {
   defineJob: function (jobID, url, body, scheduling) {
     agenda.define(jobID, function (job, done) {
-      // request.post(url, {form: body})
-      console.log('lol')
+      request.post(url, {form: body})
       done()
     })
   },

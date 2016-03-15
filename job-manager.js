@@ -20,7 +20,6 @@ module.exports = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt,
-              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
               nextRunAt: jobs[i].attrs.nextRunAt,
               state: jobs[i].attrs.data.state
             }
@@ -28,7 +27,6 @@ module.exports = {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               lastRunAt: jobs[i].attrs.lastRunAt,
-              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
               nextRunAt: jobs[i].attrs.nextRunAt
             }
           }
@@ -65,8 +63,8 @@ module.exports = {
     })
 	},
   removeJob: function (name) {
-    agenda.jobs({name: name}, function (err, job) {
-      console.log(job)
+    agenda.jobs({name: name}, function (err, jobs) {
+      jobs[0].remove()
     })
   },
   scheduleJob: function (jobID, url, body, scheduling) {

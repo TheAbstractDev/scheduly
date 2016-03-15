@@ -16,8 +16,6 @@ hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize 
   return '/assets' + filePath + '?v=' + md5(file).substring(10, 0)
 }))
 
-app.use('/', index)
-app.use('/webhook', webhook)
 app.use('/assets/', express.static(path.join(__dirname, '/assets', process.env.NODE_ENV === 'production' ? 'prod' : 'dev')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -25,6 +23,8 @@ app.use(bodyParser.urlencoded({
 }))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
+app.use('/', index)
+app.use('/webhook', webhook)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -65,5 +65,3 @@ app.listen(8080, function () {
     process.exit(1)
   }
 })
-
-module.exports = app

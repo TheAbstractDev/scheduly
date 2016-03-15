@@ -1,5 +1,5 @@
 {{#if jobs}}
-  <h1>Jobs</h1>
+  <h1>Jobs:</h1>
   <button class="removeAll">Remove all jobs</button>
   <div id="jobs">
     {{#each jobs}}
@@ -11,7 +11,7 @@
           <p class="last-run">lastRunAt: {{lastRunAt}}</p>
           <p class="last-finished">lastFinishedAt: {{lastFinishedAt}}</p>
         {{/if}}
-        <button class="remove" data-id="{{id}}">Remove</button>
+        <button class="remove" data-name="{{name}}">Remove</button>
       </div>
     {{/each}}
   </div>

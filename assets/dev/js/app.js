@@ -4,14 +4,18 @@ $('.removeAll').click(function (e) {
 		url: 'http://localhost:8080/webhook',
 		type: 'DELETE',
 	})
-	window.location.href = '/'
+  setInterval(function () {
+    window.location = '/'
+  }, 10000)
 })
 
 $('.remove').click(function (e) {
   e.preventDefault()
   $.ajax({
-    url: 'http://localhost:8080/webhook/' + $(this).attr('data-id'),
+    url: 'http://localhost:8080/webhook/' + $(this).data('name'),
     type: 'DELETE',
   })
-  window.location.href = '/'
+  setInterval(function () {
+    window.location = '/'
+  }, 10000)
 })

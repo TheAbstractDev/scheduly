@@ -6,7 +6,8 @@ var request = require('request')
 module.exports = {
   defineJob: function (jobID, url, body, scheduling) {
     agenda.define(jobID, function (job, done) {
-      request.post(url, {form: body})
+      // request.post(url, {form: body})
+      console.log('lol')
       done()
     })
   },
@@ -69,11 +70,12 @@ module.exports = {
   },
   scheduleJob: function (jobID, url, body, scheduling) {
     this.defineJob(jobID, url, body, scheduling)
-    var newJob = agenda.create(jobID, {url: url, state: 'test'})
+     // agenda.create(jobID, {url: url, state: 'test'})
+    var newJob = agenda.every(scheduling, jobID, {url: url, state: 'test'})
     newJob.repeatEvery(scheduling, {
       timezone: 'Europe/Paris'
-    })
-    newJob.save()
+    }).save()
+    // newJob.save()
     // agenda.every(scheduling, jobID)
   }
 }

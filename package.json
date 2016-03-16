@@ -14,7 +14,7 @@
     "url": "https://github.com/TheAbstractDev/siz-agenda.git"
   },
   "dependencies": {
-    "agenda": "^0.7.9",
+    "agenda": "^0.8.0",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "hbs": "^4.0.0",

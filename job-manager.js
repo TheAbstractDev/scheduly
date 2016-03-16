@@ -2,17 +2,29 @@ var Agenda = require('agenda')
 var mongoConnectionString = "mongodb://mongo-agenda/agenda";
 var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
+var state
 
 module.exports = {
+  requestState: function (data) {
+    if (data) {state = data}
+    return state
+  },
   defineJob: function (jobID, url, body, scheduling) {
     agenda.define(jobID, function (job, done) {
-       var options = {
-        method: 'POST',
-        uri: url,
-        body: body,
-        json: true
-      }
-      rp(options)
+      //  var options = {
+      //   method: 'POST',
+      //   uri: url,
+      //   body: body,
+      //   json: true
+      // }
+      // rp(options)
+      // .then(function () {
+      //   this.requestState('completed')
+      // })
+      // .catch(function (err) {
+      //   this.requestState('failed: ' + err)
+      // })
+      console.log('lol')
       done()
     })
   },
@@ -75,16 +87,13 @@ module.exports = {
   },
   scheduleJob: function (jobID, url, body, scheduling) {
     this.defineJob(jobID, url, body, scheduling)
-     // agenda.create(jobID, {url: url, state: 'test'})
-    var newJob = agenda.every(scheduling, jobID, {url: url, state: 'test'})
-    newJob.repeatEvery(scheduling, {
-      timezone: 'Europe/Paris'
-    }).save()
-    // newJob.save()
-    // agenda.every(scheduling, jobID)
-  }
+    agenda.every(scheduling, jobID, {url: url, state: 'test'})
+    // var state = this.requestState()
+    // newJob.repeatEvery(scheduling, {
+    //   timezone: 'Europe/Paris'
+    // }).save()
+  },
 }
-
 agenda.on('ready', function () {
   agenda.start()
 })

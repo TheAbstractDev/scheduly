@@ -1,12 +1,18 @@
 var Agenda = require('agenda')
 var mongoConnectionString = "mongodb://mongo-agenda/agenda";
 var agenda = new Agenda({db: {address: mongoConnectionString}})
-var request = require('request')
+var rp = require('request-promise')
 
 module.exports = {
   defineJob: function (jobID, url, body, scheduling) {
     agenda.define(jobID, function (job, done) {
-      request.post(url, {form: body})
+       var options = {
+        method: 'POST',
+        uri: url,
+        body: body,
+        json: true
+      }
+      rp(options)
       done()
     })
   },

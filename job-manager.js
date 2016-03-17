@@ -3,13 +3,10 @@ var mongoConnectionString = 'mongodb://mongo-agenda/agenda'
 var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
 var moment = require('moment')
+moment.locale()
 var state
 
 module.exports = {
-  requestState: function (data) {
-    if (data) { state = data }
-    return state
-  },
   defineJob: function (jobID, url, body, scheduling) {
     agenda.define(jobID, function (job, done) {
       var options = {
@@ -20,10 +17,8 @@ module.exports = {
       }
       rp(options)
       // .then(function () {
-      //   this.requestState('completed')
       // })
       // .catch(function (err) {
-      //   this.requestState('failed: ' + err)
       // })
       done()
     })

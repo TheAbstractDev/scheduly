@@ -5,10 +5,10 @@
     {{#each jobs}}
       <div class="job">
         <h2 class="name">URL: {{url}}</h2>
-          <p class="state">state: {{state}}</p>
-          <p class="next">nextRunAt: {{nextRunAt}}</p>
+          <p class="state">State: {{state}}</p>
+          <p class="next">Scheduled: {{nextRunAt}}</p>
         {{#if lastRunAt}}
-          <p class="last-run">lastRunAt: {{lastRunAt}}</p>
+          <p class="last-run">Last run: {{lastRunAt}}</p>
         {{/if}}
         <button class="remove" data-name="{{name}}">Remove</button>
       </div>

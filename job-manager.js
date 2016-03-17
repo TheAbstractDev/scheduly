@@ -2,6 +2,7 @@ var Agenda = require('agenda')
 var mongoConnectionString = 'mongodb://mongo-agenda/agenda'
 var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
+var moment = require('moment')
 var state
 
 module.exports = {
@@ -18,12 +19,12 @@ module.exports = {
         json: true
       }
       rp(options)
-        .then(function () {
-          this.requestState('completed')
-        })
-        .catch(function (err) {
-          this.requestState('failed: ' + err)
-        })
+      // .then(function () {
+      //   this.requestState('completed')
+      // })
+      // .catch(function (err) {
+      //   this.requestState('failed: ' + err)
+      // })
       done()
     })
   },
@@ -37,15 +38,15 @@ module.exports = {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
-              lastRunAt: jobs[i].attrs.lastRunAt,
-              nextRunAt: jobs[i].attrs.nextRunAt,
+              lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
               state: jobs[i].attrs.data.state
             }
           } else {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
-              lastRunAt: jobs[i].attrs.lastRunAt,
-              nextRunAt: jobs[i].attrs.nextRunAt
+              lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar()
             }
           }
         } else {
@@ -53,13 +54,13 @@ module.exports = {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
-              nextRunAt: jobs[i].attrs.nextRunAt,
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
               state: jobs[i].attrs.data.state
             }
           } else {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
-              nextRunAt: jobs[i].attrs.nextRunAt
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar()
             }
           }
         }

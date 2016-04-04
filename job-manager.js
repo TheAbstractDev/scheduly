@@ -4,7 +4,6 @@ var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
 var moment = require('moment')
 moment.locale()
-var state
 
 module.exports = {
   defineJob: function (jobID, url, body, scheduling) {
@@ -86,10 +85,12 @@ module.exports = {
   scheduleJob: function (jobID, url, body, scheduling) {
     this.defineJob(jobID, url, body, scheduling)
     agenda.every(scheduling, jobID, {url: url, state: 'test'})
-  // var state = this.requestState()
-  // newJob.repeatEvery(scheduling, {
-  //   timezone: 'Europe/Paris'
-  // }).save()
+  },
+  graceful: function () {
+    console.log('\nbye')
+    agenda.stop(function () {
+      process.exit(0)
+    })
   }
 }
 

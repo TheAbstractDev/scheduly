@@ -1,5 +1,5 @@
 {{#if jobs}}
-  <h1>Jobs:</h1>
+  <h1>Jobs</h1>
   <button class="removeAll">Remove all jobs</button>
   <div id="jobs">
     {{#each jobs}}
@@ -17,3 +17,9 @@
 {{else}}
   <h2 class="title">{{title}}</h2>
 {{/if}}
+
+<h1>Create a job</h1>
+<input type="text" class="url" placeholder="url" />
+<input type="text" class="scheduling" placeholder="scheduling" />
+<textarea class="body" placeholder="body (JSON)"></textarea>
+<button class="create" >Create</button>

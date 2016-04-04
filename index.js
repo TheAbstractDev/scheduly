@@ -9,6 +9,10 @@ var md5 = require('md5')
 var app = express()
 var index = require('./routes/index')
 var webhook = require('./routes/webhook')
+var JobManager = require('./job-manager')
+
+process.on('SIGTERM', JobManager.graceful)
+process.on('SIGINT', JobManager.graceful)
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -34,9 +38,6 @@ app.use(function (req, res, next) {
 })
 
 // error handlers
-
-// development error handler
-// will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500)
@@ -48,7 +49,6 @@ if (app.get('env') === 'development') {
 }
 
 // production error handler
-// no stacktraces leaked to user
 app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.render('error', {

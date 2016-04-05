@@ -37,6 +37,7 @@ function scheduleJob (jobID, url, body, scheduling) {
     })
     done()
   })
+  console.log()
   agenda.every(scheduling, jobID, {url: url, state: 'test'})
 }
 
@@ -113,8 +114,8 @@ process.on('SIGTERM', graceful)
 process.on('SIGINT', graceful)
 
 agenda.on('ready', function () {
-  agenda.jobs({}, function (err, jobs) {
-    if (jobs.length > 0) agenda.start()
+  getAllJobs(function (data) {
+    if (data.length > 0) agenda.start()
   })
 })
 
@@ -125,7 +126,7 @@ app.post('/webhook', function (req, res) {
     var body = req.body.body
     var jobID = md5(url + Math.floor(Math.random() * (45 - 1 + 1)) + 1).substring(5, 0)
 
-    scheduleJob(url, body, scheduling)
+    scheduleJob(jobID, url, body, scheduling)
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})
@@ -142,7 +143,6 @@ app.delete('/webhook/:name', function (req, res) {
 
 app.get('/', function (req, res) {
   getAllJobs(function (data) {
-    console.log(data)
     data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
   })
 })

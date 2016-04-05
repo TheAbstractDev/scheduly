@@ -142,6 +142,7 @@ app.delete('/webhook/:name', function (req, res) {
 
 app.get('/', function (req, res) {
   getAllJobs(function (data) {
+    console.log(data)
     data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
   })
 })

@@ -21,9 +21,7 @@ hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize 
 
 app.use('/assets/', express.static(path.join(__dirname, '/assets', process.env.NODE_ENV === 'production' ? 'prod' : 'dev')))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
+app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
 
@@ -37,7 +35,6 @@ function scheduleJob (jobID, url, body, scheduling) {
     })
     done()
   })
-  console.log()
   agenda.every(scheduling, jobID, {url: url, state: 'test'})
 }
 
@@ -96,6 +93,7 @@ function removeAllJobs () {
     }
   })
 }
+
 function removeJob (name) {
   agenda.jobs({name: name}, function (err, jobs) {
     if (err) { console.log(err) }

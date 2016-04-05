@@ -7,12 +7,11 @@ var _ = require('lodash')
 var fs = require('fs')
 var md5 = require('md5')
 var app = express()
-var index = require('./routes/index')
-var webhook = require('./routes/webhook')
-var JobManager = require('./job-manager')
-
-process.on('SIGTERM', JobManager.graceful)
-process.on('SIGINT', JobManager.graceful)
+var Agenda = require('agenda')
+var mongoConnectionString = 'mongodb://mongo-agenda/agenda'
+var agenda = new Agenda({db: {address: mongoConnectionString}})
+var rp = require('request-promise')
+var moment = require('moment')
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -27,8 +26,125 @@ app.use(bodyParser.urlencoded({
 }))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
-app.use('/', index)
-app.use('/webhook', webhook)
+
+function scheduleJob (jobID, url, body, scheduling) {
+  agenda.define(jobID, function (job, done) {
+    rp({
+      method: 'POST',
+      uri: url,
+      body: body,
+      json: true
+    })
+    done()
+  })
+  agenda.every(scheduling, jobID, {url: url, state: 'test'})
+}
+
+function getAllJobs (callback) {
+  var jobsArray = []
+  agenda.jobs({}, function (err, jobs) {
+    if (err) { console.log(err) }
+    for (var i = 0; i < jobs.length; i++) {
+      if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {
+        if (jobs[i].attrs.data) {
+          jobsArray[i] = {
+            name: jobs[i].attrs.name,
+            url: jobs[i].attrs.data.url,
+            lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
+            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+            state: jobs[i].attrs.data.state
+          }
+        } else {
+          jobsArray[i] = {
+            name: jobs[i].attrs.name,
+            lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
+            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar()
+          }
+        }
+      } else {
+        if (jobs[i].attrs.data) {
+          jobsArray[i] = {
+            name: jobs[i].attrs.name,
+            url: jobs[i].attrs.data.url,
+            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+            state: jobs[i].attrs.data.state
+          }
+        } else {
+          jobsArray[i] = {
+            name: jobs[i].attrs.name,
+            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar()
+          }
+        }
+      }
+    }
+    return callback(jobsArray)
+  })
+}
+
+function removeAllJobs () {
+  agenda.jobs({}, function (err, jobs) {
+    if (err) { console.log(err) }
+    for (var i = 0; i < jobs.length; i++) {
+      jobs[i].remove(function (err) {
+        if (err) console.log(err)
+        agenda.purge(function (err, numRemoved) {
+          if (err) console.log(err)
+          return
+        })
+      })
+    }
+  })
+}
+function removeJob (name) {
+  agenda.jobs({name: name}, function (err, jobs) {
+    if (err) { console.log(err) }
+    jobs[0].remove()
+  })
+}
+
+function graceful () {
+  console.log('\nbye')
+  agenda.stop(function () {
+    process.exit(0)
+  })
+}
+
+process.on('SIGTERM', graceful)
+process.on('SIGINT', graceful)
+
+agenda.on('ready', function () {
+  agenda.jobs({}, function (err, jobs) {
+    if (jobs.length > 0) agenda.start()
+  })
+})
+
+app.post('/webhook', function (req, res) {
+  if (req.body.url && req.body.scheduling && req.body.body) {
+    var url = req.body.url
+    var scheduling = req.body.scheduling
+    var body = req.body.body
+    var jobID = md5(url + Math.floor(Math.random() * (45 - 1 + 1)) + 1).substring(5, 0)
+
+    scheduleJob(url, body, scheduling)
+    res.sendStatus(200)
+  } else {
+    res.render('error', {message: 'no parameters'})
+  }
+})
+
+app.delete('/webhook', function (req, res) {
+  removeAllJobs()
+})
+
+app.delete('/webhook/:name', function (req, res) {
+  if (req.params.name) { removeJob(req.params.name) }
+})
+
+app.get('/', function (req, res) {
+  getAllJobs(function (data) {
+    data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
+  })
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -26,8 +26,8 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
 
-function scheduleJob (jobName, url, body, scheduling) {
-  agenda.define(jobName, function (job, done) {
+function scheduleJob (jobID, url, body, scheduling) {
+  agenda.define(jobID, function (job, done) {
     rp({
       method: 'POST',
       uri: url,
@@ -36,7 +36,7 @@ function scheduleJob (jobName, url, body, scheduling) {
     })
     done()
   })
-  agenda.every(scheduling, jobName, {url: url, status: 'test'})
+  agenda.every(scheduling, jobID, {url: url, status: 'test'})
 }
 
 function getAllJobs (callback) {
@@ -80,26 +80,44 @@ function getAllJobs (callback) {
   })
 }
 
-function removeAllJobs () {
-  agenda.jobs({}, function (err, jobs) {
-    if (err) console.log(err)
-    for (var i = 0; i < jobs.length; i++) {
-      jobs[i].remove(function (err) {
-        if (err) console.log(err)
-        agenda.purge(function (err, numRemoved) {
+function removeJobs (name) {
+  if (name) {
+    agenda.jobs({name: name}, function (err, jobs) {
+      if (err) console.log(err)
+      jobs[0].remove()
+    })
+  } else {
+    agenda.jobs({}, function (err, jobs) {
+      if (err) console.log(err)
+      for (var i = 0; i < jobs.length; i++) {
+        jobs[i].remove(function (err) {
           if (err) console.log(err)
-          return
+          agenda.purge(function (err, numRemoved) {
+            if (err) console.log(err)
+            return
+          })
         })
-      })
-    }
-  })
+      }
+    })
+  }
 }
 
-function removeJob (name) {
+function getJobsAttributes (name, callback) {
+  var jobsAttributes = []
   agenda.jobs({name: name}, function (err, jobs) {
     if (err) console.log(err)
-    jobs[0].remove()
+    for (var i = 0; i < jobs.length; i++) {
+      if (jobs[i].attrs.data) {
+        jobsAttributes[i] = {
+          name: jobs[i].attrs.name,
+          scheduling: jobs[i].attrs.repeatInterval,
+          url: jobs[i].attrs.data.url,
+          status: jobs[i].attrs.data.status
+        }
+      }
+    }
   })
+  return callback(jobsAttributes)
 }
 
 function graceful () {
@@ -113,7 +131,14 @@ process.on('SIGTERM', graceful)
 process.on('SIGINT', graceful)
 
 agenda.on('ready', function () {
-  agenda.start()
+  getAllJobs(function (data) {
+    if (data.length > 0) {
+      getJobsAttributes(data.name, function (data) {
+        agenda.every(data.scheduling, data.name, {url: data.url, status: data.status})
+        agenda.start()
+      })
+    }
+  })
 })
 
 app.post('/webhook', function (req, res) {
@@ -121,8 +146,9 @@ app.post('/webhook', function (req, res) {
     var url = req.body.url
     var scheduling = req.body.scheduling
     var body = req.body.body
+    var jobID = md5(url + Math.floor(Math.random() * (45 - 1 + 1)) + 1).substring(5, 0)
 
-    scheduleJob('Create Post Request', url, body, scheduling)
+    scheduleJob(jobID, url, body, scheduling)
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})
@@ -130,11 +156,11 @@ app.post('/webhook', function (req, res) {
 })
 
 app.delete('/webhook', function (req, res) {
-  removeAllJobs()
+  removeJobs()
 })
 
 app.delete('/webhook/:name', function (req, res) {
-  if (req.params.name) removeJob(req.params.name)
+  if (req.params.name) removeJobs(req.params.name)
 })
 
 app.get('/', function (req, res) {

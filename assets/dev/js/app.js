@@ -1,4 +1,16 @@
-/* global $ */
+/* global $, moment */
+
+var lang = window.navigator.userLanguage || window.navigator.language
+moment.lang(lang)
+
+function localeDate (element) {
+  var localTime = moment.utc(element.text().split('run: ')[1]).toDate()
+  return moment(localTime).calendar()
+}
+
+$('.next').text('Next run: ' + localeDate($('.next')))
+if ($('last-run')) $('.last-run').text('Last run: ' + localeDate($('.last-run')))
+
 $('.removeAll').click(function (e) {
   e.preventDefault()
   $.ajax({

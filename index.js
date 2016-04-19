@@ -11,8 +11,6 @@ var Agenda = require('agenda')
 var mongoConnectionString = 'mongodb://mongo-agenda/agenda'
 var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
-var moment = require('moment')
-moment.locale()
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -50,24 +48,24 @@ function getAllJobs (callback) {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
-              lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
-              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              lastRunAt: jobs[i].attrs.lastRunAt,
+              nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'failed - ' + jobs[i].attrs.failReason
             }
           } else {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
-              lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
-              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              lastRunAt: jobs[i].attrs.lastRunAt,
+              nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'completed'
             }
           }
         } else {
           jobsArray[i] = {
             name: jobs[i].attrs.name,
-            lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
-            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar()
+            lastRunAt: jobs[i].attrs.lastRunAt,
+            nextRunAt: jobs[i].attrs.nextRunAt
           }
         }
       } else {
@@ -76,21 +74,21 @@ function getAllJobs (callback) {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
-              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'failed - ' + jobs[i].attrs.failReason
             }
           } else {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
-              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'pending'
             }
           }
         } else {
           jobsArray[i] = {
             name: jobs[i].attrs.name,
-            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+            nextRunAt: jobs[i].attrs.nextRunAt,
             status: 'completed'
           }
         }

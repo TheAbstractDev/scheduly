@@ -26,7 +26,12 @@ $('.create').click(function (e) {
   $.ajax({
     url: 'http://localhost:8080/webhook/',
     type: 'POST',
-    data: {url: $('.url').val(), scheduling: $('.scheduling').val(), body: $('.body').val()}
+    contentType: 'application/json',
+    data: JSON.stringify({
+      'url': $('.url').val(),
+      'scheduling': $('.scheduling').val(),
+      'body': $('.body').val()
+    })
   })
   setInterval(function () {
     window.location = '/'

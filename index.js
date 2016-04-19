@@ -26,18 +26,18 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
 
-function scheduleJob (jobID, url, body, scheduling) {
-  agenda.define(jobID, function (job, done) {
-    rp({
-      method: 'POST',
-      uri: url,
-      body: body,
-      json: true
-    })
+agenda.define('Create Post Request', function (job, done) {
+  return rp({
+    method: 'POST',
+    uri: job.attrs.data.url,
+    body: job.attrs.data.body,
+    json: true
+  }).then(function () {
     done()
+  }).catch(function (err) {
+    done(err)
   })
-  agenda.every(scheduling, jobID, {url: url, status: 'test'})
-}
+})
 
 function getAllJobs (callback) {
   var jobsArray = []
@@ -46,12 +46,22 @@ function getAllJobs (callback) {
     for (var i = 0; i < jobs.length; i++) {
       if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {
         if (jobs[i].attrs.data) {
-          jobsArray[i] = {
-            name: jobs[i].attrs.name,
-            url: jobs[i].attrs.data.url,
-            lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
-            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
-            status: jobs[i].attrs.data.status
+          if (jobs[i].attrs.failReason) {
+            jobsArray[i] = {
+              name: jobs[i].attrs.name,
+              url: jobs[i].attrs.data.url,
+              lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              status: 'failed - ' + jobs[i].attrs.failReason
+            }
+          } else {
+            jobsArray[i] = {
+              name: jobs[i].attrs.name,
+              url: jobs[i].attrs.data.url,
+              lastRunAt: moment(new Date(jobs[i].attrs.lastRunAt)).calendar(),
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              status: 'completed'
+            }
           }
         } else {
           jobsArray[i] = {
@@ -62,16 +72,26 @@ function getAllJobs (callback) {
         }
       } else {
         if (jobs[i].attrs.data) {
-          jobsArray[i] = {
-            name: jobs[i].attrs.name,
-            url: jobs[i].attrs.data.url,
-            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
-            status: jobs[i].attrs.data.status
+          if (jobs[i].attrs.failReason) {
+            jobsArray[i] = {
+              name: jobs[i].attrs.name,
+              url: jobs[i].attrs.data.url,
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              status: 'failed - ' + jobs[i].attrs.failReason
+            }
+          } else {
+            jobsArray[i] = {
+              name: jobs[i].attrs.name,
+              url: jobs[i].attrs.data.url,
+              nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+              status: 'pending'
+            }
           }
         } else {
           jobsArray[i] = {
             name: jobs[i].attrs.name,
-            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar()
+            nextRunAt: moment(new Date(jobs[i].attrs.nextRunAt)).calendar(),
+            status: 'completed'
           }
         }
       }
@@ -112,12 +132,12 @@ function getJobsAttributes (name, callback) {
           name: jobs[i].attrs.name,
           scheduling: jobs[i].attrs.repeatInterval,
           url: jobs[i].attrs.data.url,
-          status: jobs[i].attrs.data.status
+          body: jobs[i].attrs.data.body
         }
       }
     }
+    return callback(jobsAttributes)
   })
-  return callback(jobsAttributes)
 }
 
 function graceful () {
@@ -133,8 +153,8 @@ process.on('SIGINT', graceful)
 agenda.on('ready', function () {
   getAllJobs(function (data) {
     if (data.length > 0) {
-      getJobsAttributes(data.name, function (data) {
-        agenda.every(data.scheduling, data.name, {url: data.url, status: data.status})
+      getJobsAttributes(data[0].name, function (jobs) {
+        agenda.every(jobs[0].scheduling, 'Create Post Request', {url: jobs[0].url, body: jobs[0].body})
         agenda.start()
       })
     }
@@ -143,12 +163,7 @@ agenda.on('ready', function () {
 
 app.post('/webhook', function (req, res) {
   if (req.body.url && req.body.scheduling && req.body.body) {
-    var url = req.body.url
-    var scheduling = req.body.scheduling
-    var body = req.body.body
-    var jobID = md5(url + Math.floor(Math.random() * (45 - 1 + 1)) + 1).substring(5, 0)
-
-    scheduleJob(jobID, url, body, scheduling)
+    agenda.every(req.body.scheduling, 'Create Post Request', {url: req.body.url, body: req.body.body})
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})

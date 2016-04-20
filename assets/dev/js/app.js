@@ -3,13 +3,21 @@
 var lang = window.navigator.userLanguage || window.navigator.language
 moment.lang(lang)
 
+$('.next').hide()
+$('.last-run').hide()
+
 function localeDate (element) {
   var localTime = moment.utc(element.text().split('run: ')[1]).toDate()
   return moment(localTime).calendar()
 }
 
 $('.next').text('Next run: ' + localeDate($('.next')))
-if ($('last-run')) $('.last-run').text('Last run: ' + localeDate($('.last-run')))
+$('.next').show()
+
+if ($('last-run')) {
+  $('.last-run').text('Last run: ' + localeDate($('.last-run')))
+}
+$('.last-run').show()
 
 $('.removeAll').click(function (e) {
   e.preventDefault()

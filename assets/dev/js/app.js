@@ -5,19 +5,25 @@ moment.lang(lang)
 
 $('.next').hide()
 $('.last-run').hide()
+$('.last-finished').hide()
 
 function localeDate (element) {
-  var localTime = moment.utc(element.text().split('run: ')[1]).toDate()
+  var localTime = moment.utc(element.text()).toDate()
   return moment(localTime).calendar()
 }
 
-$('.next').text('Next run: ' + localeDate($('.next')))
+$('.next').text(localeDate($('.next')))
 $('.next').show()
 
-if ($('last-run')) {
-  $('.last-run').text('Last run: ' + localeDate($('.last-run')))
+if ($('last-run') && $('.last-run').text() != '') {
+  $('.last-run').text(localeDate($('.last-run')))
+  $('.last-run').show()
 }
-$('.last-run').show()
+
+if ($('last-finished') && $('.last-finished').text() != '') {
+  $('.last-finished').text(localeDate($('.last-finished')))
+  $('.last-finished').show()
+}
 
 $('.removeAll').click(function (e) {
   e.preventDefault()

@@ -49,6 +49,7 @@ function getAllJobs (callback) {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt,
+              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
               nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'failed - ' + jobs[i].attrs.failReason
             }
@@ -57,6 +58,7 @@ function getAllJobs (callback) {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt,
+              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
               nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'completed'
             }
@@ -65,6 +67,7 @@ function getAllJobs (callback) {
           jobsArray[i] = {
             name: jobs[i].attrs.name,
             lastRunAt: jobs[i].attrs.lastRunAt,
+            lastFinishedAt: jobs[i].attrs.lastFinishedAt,
             nextRunAt: jobs[i].attrs.nextRunAt
           }
         }
@@ -82,7 +85,7 @@ function getAllJobs (callback) {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
               nextRunAt: jobs[i].attrs.nextRunAt,
-              status: 'pending'
+              status: 'scheduled'
             }
           }
         } else {
@@ -153,10 +156,10 @@ agenda.on('ready', function () {
     if (data.length > 0) {
       getJobsAttributes(data[0].name, function (jobs) {
         agenda.every(jobs[0].scheduling, 'Create Post Request', {url: jobs[0].url, body: jobs[0].body})
-        agenda.start()
       })
     }
   })
+  agenda.start()
 })
 
 app.post('/webhook', function (req, res) {

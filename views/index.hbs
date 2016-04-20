@@ -1,19 +1,39 @@
 {{#if jobs}}
-  <h1>Jobs</h1>
+  <h1>All Jobs</h1>
   <button class="removeAll">Remove all jobs</button>
   <div id="jobs">
-    {{#each jobs}}
-      <div class="job">
-        <h2 class="name">{{name}}</h2>
-          <p class="url">URL: {{url}}</p>
-          <p class="status">Status: {{status}}</p>
-          <p class="next">Next run: {{nextRunAt}}</p>
-        {{#if lastRunAt}}
-          <p class="last-run">Last run: {{lastRunAt}}</p>
-        {{/if}}
-        <button class="remove" data-name="{{name}}">Remove</button>
-      </div>
-    {{/each}}
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>URL</th>
+          <th>Status</th>
+          <th>Next Run</th>
+          {{#each jobs}}
+            {{#if lastRunAt}}
+              <th>Last Run</th>
+            {{/if}}
+            {{#if lastFinishedAt}}
+              <th>Last Finished</th>
+            {{/if}}
+          {{/each}}
+          <th>Remove</th>
+        </tr>
+      {{#each jobs}}
+        <tr>
+          <td lass="name">{{name}}</td>
+          <td class="url">{{url}}</td>
+          <td class="status">{{status}}</td>
+          <td class="next">{{nextRunAt}}</td>
+          {{#if lastRunAt}}
+            <td class="last-run">{{lastRunAt}}</td>
+          {{/if}}
+          {{#if lastFinishedAt}}
+            <td class="last-finished">{{lastFinishedAt}}</td>
+          {{/if}}
+          <td><button class="remove" data-name="{{name}}">Remove</button></td>
+        </tr>
+      {{/each}}
+      </table>
   </div>
 {{else}}
   <h2 class="title">{{title}}</h2>

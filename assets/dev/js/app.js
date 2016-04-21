@@ -13,7 +13,12 @@ function localeDate (element) {
 }
 
 $('.next').each(function () {
-  $(this).text(localeDate($(this)))
+  if ($(this).text() === $('.last-run').text() && $(this).text() !== '...') {
+    $(this).text('...')
+    $('.status').text('ended')
+  } else {
+    $(this).text(localeDate($(this)))
+  }
 })
 
 $('.next').show()

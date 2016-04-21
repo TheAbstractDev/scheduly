@@ -7,14 +7,8 @@
           <th>URL</th>
           <th>Status</th>
           <th>Next Run</th>
-          {{#each jobs}}
-            {{#if lastRunAt}}
-              <th>Last Run</th>
-            {{/if}}
-            {{#if lastFinishedAt}}
-              <th>Last Finished</th>
-            {{/if}}
-          {{/each}}
+            <th class="last-r">Last Run</th>
+            <th class="last-f">Last Finished</th>
           <th>Remove</th>
         </tr>
       {{#each jobs}}

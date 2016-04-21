@@ -18,11 +18,15 @@ $('.next').show()
 if ($('last-run') && $('.last-run').text() !== '') {
   $('.last-run').text(localeDate($('.last-run')))
   $('.last-run').show()
+} else {
+  $('.last-r').hide()
 }
 
 if ($('last-finished') && $('.last-finished').text() !== '') {
   $('.last-finished').text(localeDate($('.last-finished')))
   $('.last-finished').show()
+} else {
+  $('.last-f').hide()
 }
 
 $('.removeAll').click(function (e) {

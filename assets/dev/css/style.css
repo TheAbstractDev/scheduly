@@ -1,0 +1,131 @@
+* {
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  text-rendering: optimizeLegibility;
+}
+
+table {
+	width: 90%;
+	margin: auto;
+	margin-top: 20px;
+	text-align: left;
+	border-collapse: collapse;
+	border-radius: 5px;
+}
+
+th, td {
+	border-bottom: 1px solid #A7A8A8;
+	height: 40px;
+	text-align: center;
+}
+
+th {
+	font-weight: 600;
+}
+
+td {
+	width: 200px;
+}
+
+.pending {
+	color: #F0AD4E;
+  font-weight: 400;
+}
+
+.success {
+	color: #5BB75B;
+  font-weight: 400;
+}
+
+.failed {
+	color: #D8524E;
+  font-weight: 400;
+}
+
+.fa.fa-trash {
+  color: #e74c3c;
+  margin-top: 3px;
+  font-size: 22px;
+}
+
+.remove {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
+input {
+  border: 1px solid rgba(0, 0, 0, .20);
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 1);
+  display: block;
+  font-size: 17px;
+  height: 42px;
+  margin-bottom: 12px;
+  padding: 0 16px;
+  width: 286px;
+}
+
+textarea {
+  border: 1px solid rgba(0, 0, 0, .20);
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 1);
+  display: block;
+  font-size: 17px;
+  height: 100px;
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  width: 286px;
+}
+
+input:focus, textarea:focus {
+	outline: 0;
+}
+
+.create {
+	background-color: #0084E0;
+  background-image: none;
+  border: 1px solid #0084E0;
+  border-radius: 3px;
+  color: #fff;
+  display: block;
+  font-size: 17px;
+  font-weight: 400;
+  height: 44px;
+  margin-bottom: 24px;
+  padding: 0;
+  width: 318px;
+  cursor: pointer;
+}
+
+.create:hover {
+  background-color: #0084C8;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

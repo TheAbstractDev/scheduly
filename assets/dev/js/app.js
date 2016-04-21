@@ -29,6 +29,10 @@ if ($('last-finished') && $('.last-finished').text() !== '') {
   $('.last-f').hide()
 }
 
+if ($('.status').text('completed')) $('.status').addClass('success')
+else if ($('.status').text('pending')) $('.status').addClass('pending')
+else $('.status').addClass('failed')
+
 $('.removeAll').click(function (e) {
   e.preventDefault()
   $.ajax({

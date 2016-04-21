@@ -18,23 +18,19 @@ $('.next').each(function () {
 
 $('.next').show()
 
-if ($('last-run') && $('.last-run').text() !== '') {
+if ($('last-run') && $('.last-run').text() !== '' && $('.last-run').text() !== '...') {
   $('.last-run').each(function () {
     $(this).text(localeDate($(this)))
   })
-  $('.last-run').show()
-} else {
-  $('.last-r').hide()
 }
+$('.last-run').show()
 
-if ($('last-finished') && $('.last-finished').text() !== '') {
+if ($('last-finished') && $('.last-finished').text() !== '' && $('.last-finished').text() !== '...') {
   $('.last-finished').each(function () {
     $(this).text(localeDate($(this)))
   })
-  $('.last-finished').show()
-} else {
-  $('.last-f').hide()
 }
+$('.last-finished').show()
 
 $('.status').each(function () {
   if ($(this).text() === 'completed') $('.status').addClass('success')

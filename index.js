@@ -55,7 +55,7 @@ function createJob (scheduling, data) {
         if (err) console.log('Job not created')
       })
     } else {
-      console.log('nothing')
+
     }
   }
 }
@@ -65,63 +65,35 @@ function getAllJobs (callback) {
   agenda.jobs({}, function (err, jobs) {
     if (err) console.log(err)
     for (var i = 0; i < jobs.length; i++) {
-      if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {
-        if (jobs[i].attrs.data) {
-          if (jobs[i].attrs.failReason) {
-            jobsArray[i] = {
-              name: jobs[i].attrs.name,
-              url: jobs[i].attrs.data.url,
-              lastRunAt: jobs[i].attrs.lastRunAt,
-              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
-              nextRunAt: jobs[i].attrs.nextRunAt,
-              status: 'failed - ' + jobs[i].attrs.failReason
-            }
-          } else {
-            jobsArray[i] = {
-              name: jobs[i].attrs.name,
-              url: jobs[i].attrs.data.url,
-              lastRunAt: jobs[i].attrs.lastRunAt,
-              lastFinishedAt: jobs[i].attrs.lastFinishedAt,
-              nextRunAt: jobs[i].attrs.nextRunAt,
-              status: 'completed'
-            }
-          }
-        } else {
-          jobsArray[i] = {
-            name: jobs[i].attrs.name,
-            lastRunAt: jobs[i].attrs.lastRunAt,
-            lastFinishedAt: jobs[i].attrs.lastFinishedAt,
-            nextRunAt: jobs[i].attrs.nextRunAt
-          }
-        }
-      } else {
-        if (jobs[i].attrs.data) {
+      if (jobs[i].attrs.data) {
+        if (jobs[i].attrs.failReason) {
           jobsArray[i] = {
             name: jobs[i].attrs.name,
             url: jobs[i].attrs.data.url,
+            lastRunAt: jobs[i].attrs.lastRunAt || '...',
+            lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
             nextRunAt: jobs[i].attrs.nextRunAt,
-            status: 'scheduled'
+            status: 'failed - ' + jobs[i].attrs.failReason
           }
-          if (jobs[i].attrs.failReason) {
+        } else {
+          if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {    
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
+              lastRunAt: jobs[i].attrs.lastRunAt || '...',
+              lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
               nextRunAt: jobs[i].attrs.nextRunAt,
-              status: 'failed - ' + jobs[i].attrs.failReason
+              status: 'completed'
             }
-          } else {
+          } else {      
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
+              lastRunAt: jobs[i].attrs.lastRunAt || '...',
+              lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
               nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'scheduled'
             }
-          }
-        } else {
-          jobsArray[i] = {
-            name: jobs[i].attrs.name,
-            nextRunAt: jobs[i].attrs.nextRunAt,
-            status: 'completed'
           }
         }
       }
@@ -181,20 +153,18 @@ process.on('SIGTERM', graceful)
 process.on('SIGINT', graceful)
 
 agenda.on('ready', function () {
-  // getAllJobs(function (data) {
-  //   if (data.length > 0) {
-  //     getJobsAttributes(data[0].name, function (jobs) {
-  //       createJob(jobs[0].scheduling, {url: jobs[0].url, body: jobs[0].body})
-  //     })
-  //   }
-  // })
   agenda.start()
 })
 
 app.post('/webhook', function (req, res) {
   if (req.body.url && req.body.scheduling && req.body.body) {
-    createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
-    res.sendStatus(200)
+    // try {
+      createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
+      res.sendStatus(200)
+    // } catch (err) {
+    //   res.sendStatus(200)
+    //   console.log(err)
+    // }
   } else {
     res.render('error', {message: 'no parameters'})
   }

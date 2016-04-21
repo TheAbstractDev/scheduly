@@ -1,14 +1,14 @@
 {{#if jobs}}
   <h1>Webhooks</h1>
-  <button class="removeAll">Remove all jobs</button>
+  <button class="removeAll failed">Remove all jobs</button>
   <div id="jobs">
       <table>
         <tr>
           <th>URL</th>
           <th>Status</th>
           <th>Next Run</th>
-            <th class="last-r">Last Run</th>
-            <th class="last-f">Last Finished</th>
+            <th>Last Run</th>
+            <th>Last Finished</th>
           <th>Remove</th>
         </tr>
       {{#each jobs}}

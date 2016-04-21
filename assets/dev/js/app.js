@@ -15,12 +15,12 @@ function localeDate (element) {
 $('.next').text(localeDate($('.next')))
 $('.next').show()
 
-if ($('last-run') && $('.last-run').text() != '') {
+if ($('last-run') && $('.last-run').text() !== '') {
   $('.last-run').text(localeDate($('.last-run')))
   $('.last-run').show()
 }
 
-if ($('last-finished') && $('.last-finished').text() != '') {
+if ($('last-finished') && $('.last-finished').text() !== '') {
   $('.last-finished').text(localeDate($('.last-finished')))
   $('.last-finished').show()
 }

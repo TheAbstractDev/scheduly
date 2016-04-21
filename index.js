@@ -11,6 +11,8 @@ var Agenda = require('agenda')
 var mongoConnectionString = 'mongodb://mongo-agenda/agenda'
 var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
+var humanInterval = require('human-interval')
+var CronJob = require('cron').CronJob
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -24,7 +26,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
 
-agenda.define('Create Post Request', function (job, done) {
+agenda.define('webhook', function (job, done) {
   return rp({
     method: 'POST',
     uri: job.attrs.data.url,
@@ -36,6 +38,27 @@ agenda.define('Create Post Request', function (job, done) {
     done(err)
   })
 })
+
+function createJob (scheduling, data) {
+  var webhook = agenda.create('webhook', data)
+  try {
+    var cron = new CronJob(scheduling)
+    webhook.repeatEvery(scheduling)
+    webhook.computeNextRunAt()
+    webhook.save(function (err) {
+      if (err) console.log('Job not created')
+    })
+  } catch (err) {
+    if (humanInterval(scheduling) !== '') {
+      webhook.schedule(scheduling)
+      webhook.save(function (err) {
+        if (err) console.log('Job not created')
+      })
+    } else {
+      console.log('nothing')
+    }
+  }
+}
 
 function getAllJobs (callback) {
   var jobsArray = []
@@ -152,19 +175,19 @@ process.on('SIGTERM', graceful)
 process.on('SIGINT', graceful)
 
 agenda.on('ready', function () {
-  getAllJobs(function (data) {
-    if (data.length > 0) {
-      getJobsAttributes(data[0].name, function (jobs) {
-        agenda.every(jobs[0].scheduling, 'Create Post Request', {url: jobs[0].url, body: jobs[0].body})
-      })
-    }
-  })
+  // getAllJobs(function (data) {
+  //   if (data.length > 0) {
+  //     getJobsAttributes(data[0].name, function (jobs) {
+  //       createJob(jobs[0].scheduling, {url: jobs[0].url, body: jobs[0].body})
+  //     })
+  //   }
+  // })
   agenda.start()
 })
 
 app.post('/webhook', function (req, res) {
   if (req.body.url && req.body.scheduling && req.body.body) {
-    agenda.every(req.body.scheduling, 'Create Post Request', {url: req.body.url, body: req.body.body})
+    createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
     res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})

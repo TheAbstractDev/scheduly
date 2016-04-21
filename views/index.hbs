@@ -1,10 +1,9 @@
 {{#if jobs}}
-  <h1>All Jobs</h1>
+  <h1>Webhooks</h1>
   <button class="removeAll">Remove all jobs</button>
   <div id="jobs">
       <table>
         <tr>
-          <th>Name</th>
           <th>URL</th>
           <th>Status</th>
           <th>Next Run</th>
@@ -20,7 +19,6 @@
         </tr>
       {{#each jobs}}
         <tr>
-          <td lass="name">{{name}}</td>
           <td class="url">{{url}}</td>
           <td class="status">{{status}}</td>
           <td class="next">{{nextRunAt}}</td>

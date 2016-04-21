@@ -2,7 +2,6 @@
 
 var lang = window.navigator.userLanguage || window.navigator.language
 moment.lang(lang)
-moment().format('LTS')
 
 $('.next').hide()
 $('.last-run').hide()
@@ -13,26 +12,35 @@ function localeDate (element) {
   return moment(localTime).calendar()
 }
 
-$('.next').text(localeDate($('.next')))
+$('.next').each(function () {
+  $(this).text(localeDate($(this)))
+})
+
 $('.next').show()
 
 if ($('last-run') && $('.last-run').text() !== '') {
-  $('.last-run').text(localeDate($('.last-run')))
+  $('.last-run').each(function () {
+    $(this).text(localeDate($(this)))
+  })
   $('.last-run').show()
 } else {
   $('.last-r').hide()
 }
 
 if ($('last-finished') && $('.last-finished').text() !== '') {
-  $('.last-finished').text(localeDate($('.last-finished')))
+  $('.last-finished').each(function () {
+    $(this).text(localeDate($(this)))
+  })
   $('.last-finished').show()
 } else {
   $('.last-f').hide()
 }
 
-if ($('.status').text() === 'completed') $('.status').addClass('success')
-if ($('.status').text() === 'scheduled') $('.status').addClass('pending')
-if ($('.status').text()[0] === 'f') $('.status').addClass('failed')
+$('.status').each(function () {
+  if ($(this).text() === 'completed') $('.status').addClass('success')
+  if ($(this).text() === 'scheduled') $('.status').addClass('pending')
+  if ($(this).text()[0] === 'f') $('.status').addClass('failed')
+})
 
 $('.removeAll').click(function (e) {
   e.preventDefault()

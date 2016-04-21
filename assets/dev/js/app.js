@@ -2,6 +2,7 @@
 
 var lang = window.navigator.userLanguage || window.navigator.language
 moment.lang(lang)
+moment().format('LTS')
 
 $('.next').hide()
 $('.last-run').hide()
@@ -29,9 +30,9 @@ if ($('last-finished') && $('.last-finished').text() !== '') {
   $('.last-f').hide()
 }
 
-if ($('.status').text('completed')) $('.status').addClass('success')
-else if ($('.status').text('pending')) $('.status').addClass('pending')
-else $('.status').addClass('failed')
+if ($('.status').text() === 'completed') $('.status').addClass('success')
+if ($('.status').text() === 'scheduled') $('.status').addClass('pending')
+if ($('.status').text()[0] === 'f') $('.status').addClass('failed')
 
 $('.removeAll').click(function (e) {
   e.preventDefault()

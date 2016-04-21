@@ -96,6 +96,12 @@ function getAllJobs (callback) {
         }
       } else {
         if (jobs[i].attrs.data) {
+          jobsArray[i] = {
+            name: jobs[i].attrs.name,
+            url: jobs[i].attrs.data.url,
+            nextRunAt: jobs[i].attrs.nextRunAt,
+            status: 'scheduled'
+          }
           if (jobs[i].attrs.failReason) {
             jobsArray[i] = {
               name: jobs[i].attrs.name,

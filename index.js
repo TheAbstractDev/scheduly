@@ -43,19 +43,19 @@ function createJob (scheduling, data) {
   var webhook = agenda.create('webhook', data)
   try {
     var cron = new CronJob(scheduling)
-    webhook.repeatEvery(scheduling)
-    webhook.computeNextRunAt()
-    webhook.save(function (err) {
-      if (err) console.log('Job not created')
-    })
+    if (cron) {
+      webhook.repeatEvery(scheduling)
+      webhook.computeNextRunAt()
+      webhook.save(function (err) {
+        if (err) console.log('Job not created')
+      })
+    }
   } catch (err) {
     if (humanInterval(scheduling) !== '') {
       webhook.schedule(scheduling)
       webhook.save(function (err) {
         if (err) console.log('Job not created')
       })
-    } else {
-
     }
   }
 }
@@ -76,7 +76,7 @@ function getAllJobs (callback) {
             status: 'failed - ' + jobs[i].attrs.failReason
           }
         } else {
-          if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {    
+          if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
@@ -85,7 +85,7 @@ function getAllJobs (callback) {
               nextRunAt: jobs[i].attrs.nextRunAt,
               status: 'completed'
             }
-          } else {      
+          } else {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
@@ -124,24 +124,6 @@ function removeJobs (name) {
   }
 }
 
-function getJobsAttributes (name, callback) {
-  var jobsAttributes = []
-  agenda.jobs({name: name}, function (err, jobs) {
-    if (err) console.log(err)
-    for (var i = 0; i < jobs.length; i++) {
-      if (jobs[i].attrs.data) {
-        jobsAttributes[i] = {
-          name: jobs[i].attrs.name,
-          scheduling: jobs[i].attrs.repeatInterval,
-          url: jobs[i].attrs.data.url,
-          body: jobs[i].attrs.data.body
-        }
-      }
-    }
-    return callback(jobsAttributes)
-  })
-}
-
 function graceful () {
   console.log('\nbye')
   agenda.stop(function () {
@@ -158,13 +140,8 @@ agenda.on('ready', function () {
 
 app.post('/webhook', function (req, res) {
   if (req.body.url && req.body.scheduling && req.body.body) {
-    // try {
-      createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
-      res.sendStatus(200)
-    // } catch (err) {
-    //   res.sendStatus(200)
-    //   console.log(err)
-    // }
+    createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
+    res.sendStatus(200)
   } else {
     res.render('error', {message: 'no parameters'})
   }

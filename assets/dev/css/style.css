@@ -24,7 +24,7 @@ th {
 }
 
 td {
-	width: 200px;
+	width: 250px;
 }
 
 .pending {
@@ -46,6 +46,12 @@ td {
   color: #e74c3c;
   margin-top: 3px;
   font-size: 22px;
+}
+
+.fa.fa-pencil {
+  color: #0084E0;
+  margin-top: 3px;
+  font-size: 20px;
 }
 
 .remove {

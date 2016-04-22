@@ -12,6 +12,7 @@ var mongoConnectionString = 'mongodb://mongo-agenda/agenda'
 var agenda = new Agenda({db: {address: mongoConnectionString}})
 var rp = require('request-promise')
 var humanInterval = require('human-interval')
+var ObjectId = require('mongodb').ObjectId
 var CronJob = require('cron').CronJob
 
 // view engine setup
@@ -69,6 +70,7 @@ function getAllJobs (callback) {
         if (jobs[i].attrs.failReason) {
           jobsArray[i] = {
             name: jobs[i].attrs.name,
+            id: jobs[i].attrs._id,
             url: jobs[i].attrs.data.url,
             lastRunAt: jobs[i].attrs.lastRunAt || '...',
             lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
@@ -80,6 +82,7 @@ function getAllJobs (callback) {
             agenda.stop()
             jobsArray[i] = {
               name: jobs[i].attrs.name,
+              id: jobs[i].attrs._id,
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt || '...',
               lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
@@ -89,6 +92,7 @@ function getAllJobs (callback) {
           } else {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
+              id: jobs[i].attrs._id,
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt || '...',
               lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
@@ -103,18 +107,18 @@ function getAllJobs (callback) {
   })
 }
 
-function updateJob (name, data) {
-  if (name) {
-    agenda.jobs({name: name}, function (err, jobs) {
+function updateJob (id, data) {
+  if (id) {
+    agenda.jobs({_id: new ObjectId(id)}, function (err, jobs) {
       if (err) console.log(err)
       jobs[0].attrs.data = data
     })
   }
 }
 
-function removeJobs (name) {
-  if (name) {
-    agenda.jobs({name: name}, function (err, jobs) {
+function removeJobs (id) {
+  if (id) {
+    agenda.jobs({_id: new ObjectId(id)}, function (err, jobs) {
       if (err) console.log(err)
       jobs[0].remove()
     })
@@ -169,16 +173,16 @@ app.post('/webhook', function (req, res) {
   }
 })
 
-// app.put('/webhook/:name', function (req, res) {
-//   if (req.params.name) updateJob(req.params.name, {})
+// app.put('/webhook/:id', function (req, res) {
+//   if (req.params.id) updateJob(req.params.id, {})
 // })
 
 app.delete('/webhook', function (req, res) {
   removeJobs()
 })
 
-app.delete('/webhook/:name', function (req, res) {
-  if (req.params.name) removeJobs(req.params.name)
+app.delete('/webhook/:id', function (req, res) {
+  if (req.params.id) removeJobs(req.params.id)
 })
 
 // catch 404 and forward to error handler

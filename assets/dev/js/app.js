@@ -54,7 +54,7 @@ $('.removeAll').click(function (e) {
 $('.put').click(function (e) {
   e.preventDefault()
   $.ajax({
-    url: 'http://localhost:8080/webhook/webhook',
+    url: 'http://localhost:8080/webhook/' + $('.remove').data('id'),
     type: 'PUT'
   })
   setInterval(function () {
@@ -65,7 +65,7 @@ $('.put').click(function (e) {
 $('.remove').click(function (e) {
   e.preventDefault()
   $.ajax({
-    url: 'http://localhost:8080/webhook/' + $(this).data('name'),
+    url: 'http://localhost:8080/webhook/' + $(this).data('id'),
     type: 'DELETE'
   })
   setInterval(function () {

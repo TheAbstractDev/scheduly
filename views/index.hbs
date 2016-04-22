@@ -1,15 +1,15 @@
 {{#if jobs}}
   <h1>Webhooks</h1>
   <button class="removeAll failed">Remove all jobs</button>
-  <button class="put">put</button>
   <div id="jobs">
       <table>
         <tr>
           <th>URL</th>
           <th>Status</th>
           <th>Next Run</th>
-            <th>Last Run</th>
-            <th>Last Finished</th>
+          <th>Last Run</th>
+          <th>Last Finished</th>
+          <th>Edit</th>
           <th>Remove</th>
         </tr>
       {{#each jobs}}
@@ -23,7 +23,8 @@
           {{#if lastFinishedAt}}
             <td class="last-finished">{{lastFinishedAt}}</td>
           {{/if}}
-          <td><a href="#" class="remove" data-name="{{name}}"><i class="fa fa-trash"></i></a></td>
+          <td><a href="#" class="put" data-id="{{id}}"><i class="fa fa-pencil"></i></a></td>
+          <td><a href="#" class="remove" data-id="{{id}}"><i class="fa fa-trash"></i></a></td>
         </tr>
       {{/each}}
       </table>

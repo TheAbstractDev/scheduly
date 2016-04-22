@@ -76,13 +76,14 @@ function getAllJobs (callback) {
             status: 'failed - ' + jobs[i].attrs.failReason
           }
         } else {
-          if (jobs[i].attrs.lastRunAt && jobs[i].attrs.lastFinishedAt) {
+          if (jobs[i].attrs.nextRunAt === jobs[i].attrs.lastFinishedAt) {
+            agenda.stop()
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               url: jobs[i].attrs.data.url,
               lastRunAt: jobs[i].attrs.lastRunAt || '...',
               lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
-              nextRunAt: jobs[i].attrs.nextRunAt,
+              nextRunAt: '...',
               status: 'completed'
             }
           } else {
@@ -100,6 +101,15 @@ function getAllJobs (callback) {
     }
     return callback(jobsArray)
   })
+}
+
+function updateJob (name, data) {
+  if (name) {
+    agenda.jobs({name: name}, function (err, jobs) {
+      if (err) console.log(err)
+      jobs[0].attrs.data = data
+    })
+  }
 }
 
 function removeJobs (name) {
@@ -138,6 +148,18 @@ agenda.on('ready', function () {
   agenda.start()
 })
 
+app.get('/', function (req, res) {
+  getAllJobs(function (data) {
+    data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
+  })
+})
+
+app.get('/webhooks', function (req, res) {
+  getAllJobs(function (data) {
+    data.length === 0 ? res.json({}) : res.json(data)
+  })
+})
+
 app.post('/webhook', function (req, res) {
   if (req.body.url && req.body.scheduling && req.body.body) {
     createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
@@ -147,18 +169,16 @@ app.post('/webhook', function (req, res) {
   }
 })
 
+// app.put('/webhook/:name', function (req, res) {
+//   if (req.params.name) updateJob(req.params.name, {})
+// })
+
 app.delete('/webhook', function (req, res) {
   removeJobs()
 })
 
 app.delete('/webhook/:name', function (req, res) {
   if (req.params.name) removeJobs(req.params.name)
-})
-
-app.get('/', function (req, res) {
-  getAllJobs(function (data) {
-    data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
-  })
 })
 
 // catch 404 and forward to error handler

@@ -13,28 +13,25 @@ function localeDate (element) {
 }
 
 $('.next').each(function () {
-  if ($(this).text() === $('.last-run').text() && $(this).text() !== '...') {
-    $(this).text('...')
-    $('.status').text('ended')
-  } else {
-    $(this).text(localeDate($(this)))
-  }
+  $(this).text(localeDate($(this)))
 })
 
 $('.next').show()
 
-if ($('last-run') && $('.last-run').text() !== '' && $('.last-run').text() !== '...') {
-  $('.last-run').each(function () {
+$('.last-run').each(function () {
+  if ($(this) && $(this).text() !== '' && $(this).text() !== '...') {
     $(this).text(localeDate($(this)))
-  })
-}
+  }
+})
+
 $('.last-run').show()
 
-if ($('last-finished') && $('.last-finished').text() !== '' && $('.last-finished').text() !== '...') {
-  $('.last-finished').each(function () {
+$('.last-finished').each(function () {
+  if ($(this) && $(this).text() !== '' && $(this).text() !== '...') {
     $(this).text(localeDate($(this)))
-  })
-}
+  }
+})
+
 $('.last-finished').show()
 
 $('.status').each(function () {
@@ -48,6 +45,17 @@ $('.removeAll').click(function (e) {
   $.ajax({
     url: 'http://localhost:8080/webhook',
     type: 'DELETE'
+  })
+  setInterval(function () {
+    window.location = '/'
+  }, 10000)
+})
+
+$('.put').click(function (e) {
+  e.preventDefault()
+  $.ajax({
+    url: 'http://localhost:8080/webhook/webhook',
+    type: 'PUT'
   })
   setInterval(function () {
     window.location = '/'

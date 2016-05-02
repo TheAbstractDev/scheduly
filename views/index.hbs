@@ -5,8 +5,6 @@
       <table>
         <tr>
           <th>URL</th>
-          <th>Body</th>
-          <th>Interval</th>
           <th>Status</th>
           <th>Next Run</th>
           <th>Last Run</th>
@@ -17,8 +15,6 @@
       {{#each jobs}}
         <tr>
           <td class="url">{{url}}</td>
-          <td class="body">{{body}}</td>
-          <td class="interval">{{repeatInterval}}</td>
           <td class="status">{{status}}</td>
           <td class="next">{{nextRunAt}}</td>
           {{#if lastRunAt}}
@@ -27,7 +23,7 @@
           {{#if lastFinishedAt}}
             <td class="last-finished">{{lastFinishedAt}}</td>
           {{/if}}
-          <td><a href="#" class="edit" data-id="{{id}}"><i class="fa fa-pencil"></i></a></td>
+          <td><a href="#" class="put" data-id="{{id}}"><i class="fa fa-pencil"></i></a></td>
           <td><a href="#" class="remove" data-id="{{id}}"><i class="fa fa-trash"></i></a></td>
         </tr>
       {{/each}}
@@ -42,16 +38,3 @@
 <input type="text" class="scheduling" placeholder="scheduling" />
 <textarea class="body" placeholder="body (JSON)"></textarea>
 <button class="create" >Create</button>
-
-<div class="layer ask">
-  <div class="content">
-    <a href="#" class="cancel"><i class="fa fa-times"></i></a>
-    <h2>Edit</h2>
-    <div class="editFields"> 
-      <input type="text" class="edit-url" placeholder="url" />
-      <input type="text" class="edit-scheduling" placeholder="scheduling" />
-      <textarea class="edit-body" placeholder="body (JSON)"></textarea>
-      <button class="editBtn">Edit</button>
-    </div>
-  </div>
-</div>

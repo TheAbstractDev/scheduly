@@ -1,6 +1,5 @@
 /* global $, moment */
 
-var data = {}
 var lang = window.navigator.userLanguage || window.navigator.language
 moment.lang(lang)
 
@@ -52,6 +51,17 @@ $('.removeAll').click(function (e) {
   }, 10000)
 })
 
+$('.put').click(function (e) {
+  e.preventDefault()
+  $.ajax({
+    url: 'http://localhost:8080/webhook/' + $('.remove').data('id'),
+    type: 'PUT'
+  })
+  setInterval(function () {
+    window.location = '/'
+  }, 10000)
+})
+
 $('.remove').click(function (e) {
   e.preventDefault()
   $.ajax({
@@ -63,43 +73,17 @@ $('.remove').click(function (e) {
   }, 10000)
 })
 
-$('.edit').click(function (e) {
-  e.preventDefault()
-  id = $(this).data('id')
-  
-  $('.edit-url').attr('placeholder', $('.url').text())
-  $('.edit-body').attr('placeholder', $('.body').text().replace(/"/g, "'"))
-  $('.edit-scheduling').attr('placeholder', $('.interval').text())
-  $('.ask').show()
-})
-
-$('.editBtn').click(function (e) {
-  $.ajax({
-    url: 'http://localhost:8080/webhook/' + id,
-    type: 'PUT',
-    data: {
-      url: $('.edit-url').val() !== '' ? $('.edit-url').val() : $('.edit-url').attr('placeholder'),
-      scheduling: $('.edit-scheduling').val() !== '' ? $('.edit-scheduling').val() : $('.edit-scheduling').attr('placeholder'),
-      body: $('.edit-body').val() !== '' ? $('.edit-body').val() : $('.edit-body').attr('placeholder')
-    }
-  })
-  $('.ask').hide()
-})
-
-$('.cancel').click(function (e) {
-  $('.ask').hide()
-})
-
 $('.create').click(function (e) {
   e.preventDefault($('.body').val())
   $.ajax({
     url: 'http://localhost:8080/webhook/',
     type: 'POST',
-    data: {
-      url: $('.url').val(),
-      scheduling: $('.scheduling').val(),
-      body: $('.body').val()
-    }
+    contentType: 'application/json',
+    data: JSON.stringify({
+      'url': $('.url').val(),
+      'scheduling': $('.scheduling').val(),
+      'body': $('.body').val()
+    })
   })
   setInterval(function () {
     window.location = '/'

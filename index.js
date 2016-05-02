@@ -72,6 +72,7 @@ function getAllJobs (callback) {
             name: jobs[i].attrs.name,
             id: jobs[i].attrs._id,
             url: jobs[i].attrs.data.url,
+            body: JSON.stringify(jobs[i].attrs.data.body),
             lastRunAt: jobs[i].attrs.lastRunAt || '...',
             lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
             nextRunAt: jobs[i].attrs.nextRunAt,
@@ -84,6 +85,7 @@ function getAllJobs (callback) {
               name: jobs[i].attrs.name,
               id: jobs[i].attrs._id,
               url: jobs[i].attrs.data.url,
+              body: JSON.stringify(jobs[i].attrs.data.body),
               lastRunAt: jobs[i].attrs.lastRunAt || '...',
               lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
               nextRunAt: '...',
@@ -94,9 +96,11 @@ function getAllJobs (callback) {
               name: jobs[i].attrs.name,
               id: jobs[i].attrs._id,
               url: jobs[i].attrs.data.url,
+              body: JSON.stringify(jobs[i].attrs.data.body),
               lastRunAt: jobs[i].attrs.lastRunAt || '...',
               lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
               nextRunAt: jobs[i].attrs.nextRunAt,
+              repeatInterval: jobs[i].attrs.repeatInterval || '...',
               status: 'scheduled'
             }
           }
@@ -111,7 +115,12 @@ function updateJob (id, data) {
   if (id) {
     agenda.jobs({_id: new ObjectId(id)}, function (err, jobs) {
       if (err) console.log(err)
-      jobs[0].attrs.data = data
+      if (data) {
+        jobs[0].attrs.data.url = data.url
+        jobs[0].attrs.data.body = data.body
+        jobs[0].attrs.repeatInterval = data.scheduling
+        jobs[0].save()
+      }
     })
   }
 }
@@ -173,9 +182,9 @@ app.post('/webhook', function (req, res) {
   }
 })
 
-// app.put('/webhook/:id', function (req, res) {
-//   if (req.params.id) updateJob(req.params.id, {})
-// })
+app.put('/webhook/:id', function (req, res) {
+  if (req.params.id) updateJob(req.params.id, req.body)
+})
 
 app.delete('/webhook', function (req, res) {
   removeJobs()

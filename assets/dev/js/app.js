@@ -68,7 +68,7 @@ $('.edit').click(function (e) {
   id = $(this).data('id')
   
   $('.edit-url').attr('placeholder', $('.url').text())
-  $('.edit-body').attr('placeholder', $('.body').text().replace(/"/g, "'"))
+  $('.edit-body').attr('placeholder', $('.body').val().replace(/"/g, "'"))
   $('.edit-scheduling').attr('placeholder', $('.interval').text())
   $('.ask').show()
 })

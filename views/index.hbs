@@ -5,7 +5,6 @@
       <table>
         <tr>
           <th>URL</th>
-          <th>Body</th>
           <th>Interval</th>
           <th>Status</th>
           <th>Next Run</th>
@@ -17,7 +16,7 @@
       {{#each jobs}}
         <tr>
           <td class="url">{{url}}</td>
-          <td class="body">{{body}}</td>
+          <input type="hidden" name="body" value="{{body}}">
           <td class="interval">{{repeatInterval}}</td>
           <td class="status">{{status}}</td>
           <td class="next">{{nextRunAt}}</td>

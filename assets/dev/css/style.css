@@ -2,47 +2,53 @@
   font-family: Roboto, sans-serif;
   font-weight: 300;
   text-rendering: optimizeLegibility;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, input, textarea, button {
+  margin: 20px;
 }
 
 table {
-	width: 90%;
-	margin: auto;
-	margin-top: 20px;
-	text-align: left;
-	border-collapse: collapse;
-	border-radius: 5px;
+  width: 95%;
+  margin: auto;
+  margin-top: 20px;
+  text-align: left;
+  border-collapse: collapse;
+  border-radius: 5px;
 }
 
 th, td {
-	border-bottom: 1px solid #A7A8A8;
-	height: 40px;
-	text-align: center;
+  border-bottom: 1px solid #A7A8A8;
+  height: 40px;
+  text-align: center;
 }
 
 th {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 td {
-	width: 250px;
+  width: 250px;
 }
 
 .pending {
-	color: #F0AD4E;
+  color: #F0AD4E;
   font-weight: 400;
 }
 
 .success {
-	color: #5BB75B;
+  color: #5BB75B;
   font-weight: 400;
 }
 
 .failed {
-	color: #D8524E;
+  color: #D8524E;
   font-weight: 400;
 }
 
-.fa.fa-trash {
+.fa.fa-trash, .fa.fa-times {
   color: #e74c3c;
   margin-top: 3px;
   font-size: 22px;
@@ -55,9 +61,9 @@ td {
 }
 
 .remove {
-	display: block;
-	text-align: center;
-	text-decoration: none;
+  display: block;
+  text-align: center;
+  text-decoration: none;
 }
 
 input {
@@ -70,6 +76,13 @@ input {
   margin-bottom: 12px;
   padding: 0 16px;
   width: 286px;
+}
+
+.mini-input {
+  width: 220px;
+  height: 30px;
+  margin: auto;
+  margin-left: 15px;
 }
 
 textarea {
@@ -85,11 +98,11 @@ textarea {
 }
 
 input:focus, textarea:focus {
-	outline: 0;
+  outline: 0;
 }
 
-.create {
-	background-color: #0084E0;
+.create, .editBtn {
+  background-color: #0084E0;
   background-image: none;
   border: 1px solid #0084E0;
   border-radius: 3px;
@@ -106,32 +119,35 @@ input:focus, textarea:focus {
 
 .create:hover {
   background-color: #0084C8;
+  border-color: #0084C8;
+}
+
+.layer {
+  width: 100%;
+  height: 120%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  display: none;
 }
 
 
+.layer .content {
+  width: 500px;
+  height: 450px;
+  margin: auto;
+  margin-top: 100px;
+  background-color: #FFF;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
 
+.layer .content h2 {
+  text-align: center;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.editFields {
+  width: 70%;
+  margin: auto;
+}

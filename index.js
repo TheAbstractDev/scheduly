@@ -40,28 +40,33 @@ agenda.define('webhook', function (job, done) {
   })
 })
 
-function createJob (scheduling, data) {
-  var webhook = agenda.create('webhook', data)
-  try {
-    var cron = new CronJob(scheduling)
-    if (cron) {
-      webhook.repeatEvery(scheduling)
-      webhook.computeNextRunAt()
-      webhook.save(function (err) {
-        if (err) console.log('Job not created')
-      })
+function createJob (req, res) {
+  if (req.body.url && req.body.scheduling && req.body.body) {
+    var webhook = agenda.create('webhook', {url: req.body.url, body: req.body.body})
+    try {
+      var cron = new CronJob(req.body.scheduling)
+      if (cron) {
+        webhook.repeatEvery(req.body.scheduling)
+        webhook.computeNextRunAt()
+        webhook.save(function (err) {
+          if (err) console.log('Job not created')
+        })
+      }
+    } catch (err) {
+      if (humanInterval(req.body.scheduling) !== '') {
+        webhook.schedule(req.body.scheduling)
+        webhook.save(function (err) {
+          if (err) console.log('Job not created')
+        })
+      }
     }
-  } catch (err) {
-    if (humanInterval(scheduling) !== '') {
-      webhook.schedule(scheduling)
-      webhook.save(function (err) {
-        if (err) console.log('Job not created')
-      })
-    }
+    res.sendStatus(200)
+  } else {
+    res.render('error', {message: 'no parameters'})
   }
 }
 
-function getAllJobs (callback) {
+function getAllJobs (req, res) {
   var jobsArray = []
   agenda.jobs({}, function (err, jobs) {
     if (err) console.log(err)
@@ -107,27 +112,28 @@ function getAllJobs (callback) {
         }
       }
     }
-    return callback(jobsArray)
+    if (req.url === '/') jobsArray.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: jobsArray})
+    if (req.url === '/webhooks') jobsArray.length === 0 ? res.json({}) : res.json(jobsArray)
   })
 }
 
-function updateJob (id, data) {
-  if (id) {
-    agenda.jobs({_id: new ObjectId(id)}, function (err, jobs) {
+function updateJob (req, res) {
+  if (req.params.id) {
+    agenda.jobs({_id: new ObjectId(req.params.id)}, function (err, jobs) {
       if (err) console.log(err)
-      if (data) {
-        jobs[0].attrs.data.url = data.url
-        jobs[0].attrs.data.body = data.body
-        jobs[0].attrs.repeatInterval = data.scheduling
+      if (req.body) {
+        jobs[0].attrs.data.url = req.body.url
+        jobs[0].attrs.data.body = req.body.body
+        jobs[0].attrs.repeatInterval = req.body.scheduling
         jobs[0].save()
       }
     })
   }
 }
 
-function removeJobs (id) {
-  if (id) {
-    agenda.jobs({_id: new ObjectId(id)}, function (err, jobs) {
+function removeJobs (req, res) {
+  if (req.params.id) {
+    agenda.jobs({_id: new ObjectId(req.params.id)}, function (err, jobs) {
       if (err) console.log(err)
       jobs[0].remove()
     })
@@ -161,38 +167,18 @@ agenda.on('ready', function () {
   agenda.start()
 })
 
-app.get('/', function (req, res) {
-  getAllJobs(function (data) {
-    data.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: data})
-  })
-})
+app.get('/', getAllJobs)
 
-app.get('/webhooks', function (req, res) {
-  getAllJobs(function (data) {
-    data.length === 0 ? res.json({}) : res.json(data)
-  })
-})
+app.get('/webhooks', getAllJobs)
 
-app.post('/webhook', function (req, res) {
-  if (req.body.url && req.body.scheduling && req.body.body) {
-    createJob(req.body.scheduling, {url: req.body.url, body: req.body.body})
-    res.sendStatus(200)
-  } else {
-    res.render('error', {message: 'no parameters'})
-  }
-})
+app.post('/webhook', createJob)
 
-app.put('/webhook/:id', function (req, res) {
-  if (req.params.id) updateJob(req.params.id, req.body)
-})
+app.put('/webhook/:id', updateJob)
 
-app.delete('/webhook', function (req, res) {
-  removeJobs()
-})
+app.delete('/webhook', removeJobs)
 
-app.delete('/webhook/:id', function (req, res) {
-  if (req.params.id) removeJobs(req.params.id)
-})
+app.delete('/webhook/:id', removeJobs)
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -44,7 +44,7 @@ $('.status').each(function () {
 $('.removeAll').click(function (e) {
   e.preventDefault()
   $.ajax({
-    url: 'http://localhost:8080/webhook',
+    url: 'http://localhost:8080/webhooks',
     type: 'DELETE'
   })
   setInterval(function () {

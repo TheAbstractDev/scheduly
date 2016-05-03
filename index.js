@@ -70,33 +70,10 @@ function getAllJobs (req, res) {
   var jobsArray = []
   agenda.jobs({}, function (err, jobs) {
     if (err) console.log(err)
-    for (var i = 0; i < jobs.length; i++) {
-      if (jobs[i].attrs.data) {
-        if (jobs[i].attrs.failReason) {
-          jobsArray[i] = {
-            name: jobs[i].attrs.name,
-            id: jobs[i].attrs._id,
-            url: jobs[i].attrs.data.url,
-            body: JSON.stringify(jobs[i].attrs.data.body),
-            lastRunAt: jobs[i].attrs.lastRunAt || '...',
-            lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
-            nextRunAt: jobs[i].attrs.nextRunAt,
-            status: 'failed - ' + jobs[i].attrs.failReason
-          }
-        } else {
-          if (jobs[i].attrs.nextRunAt === jobs[i].attrs.lastFinishedAt) {
-            agenda.stop()
-            jobsArray[i] = {
-              name: jobs[i].attrs.name,
-              id: jobs[i].attrs._id,
-              url: jobs[i].attrs.data.url,
-              body: JSON.stringify(jobs[i].attrs.data.body),
-              lastRunAt: jobs[i].attrs.lastRunAt || '...',
-              lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
-              nextRunAt: '...',
-              status: 'completed'
-            }
-          } else {
+    if (jobs.length !== 0) {     
+      for (var i = 0; i < jobs.length; i++) {
+        if (jobs[i].attrs.data) {
+          if (jobs[i].attrs.failReason) {
             jobsArray[i] = {
               name: jobs[i].attrs.name,
               id: jobs[i].attrs._id,
@@ -105,15 +82,41 @@ function getAllJobs (req, res) {
               lastRunAt: jobs[i].attrs.lastRunAt || '...',
               lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
               nextRunAt: jobs[i].attrs.nextRunAt,
-              repeatInterval: jobs[i].attrs.repeatInterval || '...',
-              status: 'scheduled'
+              status: 'failed - ' + jobs[i].attrs.failReason
+            }
+          } else {
+            if (jobs[i].attrs.nextRunAt === jobs[i].attrs.lastFinishedAt) {
+              agenda.stop()
+              jobsArray[i] = {
+                name: jobs[i].attrs.name,
+                id: jobs[i].attrs._id,
+                url: jobs[i].attrs.data.url,
+                body: JSON.stringify(jobs[i].attrs.data.body),
+                lastRunAt: jobs[i].attrs.lastRunAt || '...',
+                lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
+                nextRunAt: '...',
+                status: 'completed'
+              }
+            } else {
+              jobsArray[i] = {
+                name: jobs[i].attrs.name,
+                id: jobs[i].attrs._id,
+                url: jobs[i].attrs.data.url,
+                body: JSON.stringify(jobs[i].attrs.data.body),
+                lastRunAt: jobs[i].attrs.lastRunAt || '...',
+                lastFinishedAt: jobs[i].attrs.lastFinishedAt || '...',
+                nextRunAt: jobs[i].attrs.nextRunAt,
+                repeatInterval: jobs[i].attrs.repeatInterval || '...',
+                status: 'scheduled'
+              }
             }
           }
         }
       }
+    } else {
+      if (req.url === '/') jobsArray.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: jobsArray})
+      if (req.url === '/webhooks') jobsArray.length === 0 ? res.status(200).json({}) : res.status(200).json(jobsArray)
     }
-    if (req.url === '/') jobsArray.length === 0 ? res.render('index', {title: 'No jobs'}) : res.render('index', {jobs: jobsArray})
-    if (req.url === '/webhooks') jobsArray.length === 0 ? res.json({}) : res.json(jobsArray)
   })
 }
 
@@ -121,11 +124,16 @@ function updateJob (req, res) {
   if (req.params.id) {
     agenda.jobs({_id: new ObjectId(req.params.id)}, function (err, jobs) {
       if (err) console.log(err)
-      if (req.body) {
-        jobs[0].attrs.data.url = req.body.url
-        jobs[0].attrs.data.body = req.body.body
-        jobs[0].attrs.repeatInterval = req.body.scheduling
-        jobs[0].save()
+      if (jobs.length !== 0) {
+        if (req.body) {
+          jobs[0].attrs.data.url = req.body.url
+          jobs[0].attrs.data.body = req.body.body
+          jobs[0].attrs.repeatInterval = req.body.scheduling
+          jobs[0].save()
+        }
+        res.sendStatus(200)
+      } else {
+        res.status(500).send('No Jobs')
       }
     })
   }
@@ -135,19 +143,29 @@ function removeJobs (req, res) {
   if (req.params.id) {
     agenda.jobs({_id: new ObjectId(req.params.id)}, function (err, jobs) {
       if (err) console.log(err)
-      jobs[0].remove()
+      if (jobs.length !== 0) {  
+        jobs[0].remove()
+        res.sendStatus(200)
+      } else {
+        res.status(500).send('No Jobs')
+      }
     })
   } else {
     agenda.jobs({}, function (err, jobs) {
       if (err) console.log(err)
-      for (var i = 0; i < jobs.length; i++) {
-        jobs[i].remove(function (err) {
-          if (err) console.log(err)
-          agenda.purge(function (err, numRemoved) {
+      if (jobs.length !== 0) {
+        for (var i = 0; i < jobs.length; i++) {
+          jobs[i].remove(function (err) {
             if (err) console.log(err)
-            return
+            agenda.purge(function (err, numRemoved) {
+              if (err) console.log(err)
+              return
+            })
           })
-        })
+        }
+        res.sendStatus(200)
+      } else {
+        res.status(500).send('No Jobs')
       }
     })
   }
@@ -175,7 +193,7 @@ app.post('/webhook', createJob)
 
 app.put('/webhook/:id', updateJob)
 
-app.delete('/webhook', removeJobs)
+app.delete('/webhooks', removeJobs)
 
 app.delete('/webhook/:id', removeJobs)
 

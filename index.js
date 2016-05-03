@@ -7,7 +7,7 @@ var _ = require('lodash')
 var fs = require('fs')
 var md5 = require('md5')
 var app = express()
-var JobManger = require('./job-manager')
+var JobManger = require('./lib/job-manager')
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {

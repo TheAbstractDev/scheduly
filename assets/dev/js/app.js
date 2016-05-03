@@ -1,9 +1,7 @@
 /* global $, moment */
-
-var data = {}
+var id
 var lang = window.navigator.userLanguage || window.navigator.language
 moment.lang(lang)
-
 $('.next').hide()
 $('.last-run').hide()
 $('.last-finished').hide()
@@ -66,7 +64,6 @@ $('.remove').click(function (e) {
 $('.edit').click(function (e) {
   e.preventDefault()
   id = $(this).data('id')
-  
   $('.edit-url').attr('placeholder', $('.url').text())
   $('.edit-body').attr('placeholder', $('.body').val().replace(/"/g, "'"))
   $('.edit-scheduling').attr('placeholder', $('.interval').text())

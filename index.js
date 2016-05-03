@@ -28,15 +28,15 @@ JobManger.start()
 
 app.get('/', JobManger.getAllJobs)
 
-app.post('/webhook', JobManger.createJob)
-
-app.get('/webhook/:id', JobManger.getAllJobs)
-
-app.put('/webhook/:id', JobManger.updateJob)
-
-app.delete('/webhook/:id', JobManger.removeJobs)
-
 app.get('/webhooks', JobManger.getAllJobs)
+
+app.get('/webhooks/:id', JobManger.getAllJobs)
+
+app.post('/webhooks', JobManger.createJob)
+
+app.put('/webhooks/:id', JobManger.updateJob)
+
+app.delete('/webhooks/:id', JobManger.removeJobs)
 
 app.delete('/webhooks', JobManger.removeJobs)
 

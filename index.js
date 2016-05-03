@@ -28,15 +28,17 @@ JobManger.start()
 
 app.get('/', JobManger.getAllJobs)
 
-app.get('/webhooks', JobManger.getAllJobs)
-
 app.post('/webhook', JobManger.createJob)
+
+app.get('/webhook/:id', JobManger.getAllJobs)
 
 app.put('/webhook/:id', JobManger.updateJob)
 
-app.delete('/webhooks', JobManger.removeJobs)
-
 app.delete('/webhook/:id', JobManger.removeJobs)
+
+app.get('/webhooks', JobManger.getAllJobs)
+
+app.delete('/webhooks', JobManger.removeJobs)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

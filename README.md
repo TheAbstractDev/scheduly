@@ -60,105 +60,29 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ``` javascript
 {  
    "url": "myurl.com",
-   "scheduling": "* * * * *",
+   "scheduling": "* * * * *"
+}
+```
+- Response type: `Missing required parameters`
+- Status: `400`
+
+
+- `POST http://localhost:3000/webhooks`
+- Body :
+``` javascript
+{
+   "url": "myurl.com",
+   "scheduling": "test",
    "body": {  
       "hello":"world"
    }
 }
 ```
-- Response type:
-``` javascript
-[
-  {
-    "name": "webhook",
-    "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
-    "body": {
-      "hello": "world"
-    },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
-    "nextRunAt": "2016-05-09T14:56:00.246Z"
-  }
-]
-```
-- Status: `200`
-
-## Getting Jobs
-- `GET http://localhost:3000/webhooks`
-- Response type:
-``` javascript
-[
-  {
-    "name": "webhook",
-    "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
-    "body": {
-      "hello": "world"
-    },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
-    "nextRunAt": "2016-05-09T14:56:00.246Z",
-    "status": "scheduled"
-  }
-]
-```
-- Status: `200`
-
-- `GET http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
-- Response type:
-``` javascript
-[
-  {
-    "name": "webhook",
-    "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
-    "body": {
-      "hello": "world"
-    },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
-    "nextRunAt": "2016-05-09T14:56:00.246Z",
-    "status": "scheduled"
-  }
-]
-```
-- Status: `200`
-
-- `GET http://localhost:3000/webhooks?offset=4&limit=2`
-- Response type:
-``` javascript
-[
-  {
-    "name": "webhook",
-    "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
-    "body": {
-      "hello": "world"
-    },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
-    "nextRunAt": "2016-05-09T14:56:00.246Z",
-    "status": "scheduled"
-  },
-  {
-    "name": "webhook",
-    "id": "5730a487a3dc0e13009c0a46",
-    "url": "myurl.com",
-    "body": {
-      "hello": "world"
-    },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
-    "nextRunAt": "2016-05-09T14:56:00.246Z",
-    "status": "scheduled"
-  }
-]
-```
-- Status: `200`
+- Response type: `test is not a valid time inteval !`
+- Status: `400`
 
 ## Updating Jobs
-- `PUT http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- `PUT http://localhost:3000/webhooks/azerty`
 - Body :
 ``` javascript
 {  
@@ -169,32 +93,17 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
    }
 }
 ```
-- Response type:
-``` javascript
-[
-  {
-    "name": "webhook",
-    "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
-    "body": {
-      "hello": "world"
-    },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
-    "nextRunAt": "2016-05-09T14:56:00.246Z"
-  }
-]
-```
-- Status: `200`
+- Response type: `Unable to update the job`
+- Status: `400`
 
 ## Removing Data
-- `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
-- Response type: `OK`
-- Status: `200`
+- `DELETE http://localhost:3000/webhooks/azerty`
+- Response type: `Unable to remove the job`
+- Status: `400`
 
 - `DELETE http://localhost:3000/webhooks`
-- Response type: `OK`
-- Status: `200`
+- Response type: `Unable to remove jobs`
+- Status: `400`
 
 # Environment variables
 - `NODE_ENV (possible values: production or developpement)`

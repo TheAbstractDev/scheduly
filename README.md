@@ -42,6 +42,7 @@ app.listen(3000, function () {
 - [Removing jobs](#removing-jobs)
 - [Paginate data](#paginate-data)
 - [Getting jobs](#getting-jobs)
+- [List of errors](#list-of-errors)
 
 # Note
 All functions excepted `paginate` are only getting `req` and `res` in parameter.
@@ -75,6 +76,19 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 ## Getting Jobs
 ### JobManger.getAllJobs
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
+
+# List of errors
+## Create jobs
+- `Job Not created`
+- `... is not a valid human readable time inteval !`
+- `Missing required parameters`
+
+## Update jobs
+- `Unable to update the job`
+
+## Remove jobs
+- `Unable to remove the job`
+- `Unable to remove jobs`
 
 # Environment variables
 - `NODE_ENV (possible values: production or developpement)`

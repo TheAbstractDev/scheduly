@@ -86,7 +86,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - `Unable to remove jobs`
 
 # Examples
-## Create Job
+## Creating a Job
 - Making a POST Request to `http://localhost:3000/webhooks`
 Data :
 ``` javascript

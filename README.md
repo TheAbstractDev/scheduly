@@ -87,7 +87,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 # Examples
 ## Creating a Job
 - Making a `POST` Request to `http://localhost:3000/webhooks`
-Data :
+- Data :
 ``` javascript
 {  
    "url": "myurl.com",
@@ -171,7 +171,7 @@ Data :
 
 ## Updating Jobs
 - Making a `PUT` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
-Data :
+- Data :
 ``` javascript
 {  
    "url": "myurl.com",

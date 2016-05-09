@@ -82,6 +82,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
   }
 ]
 ```
+- Status: `200`
 
 ## Getting Jobs
 - `GET http://localhost:3000/webhooks`
@@ -102,6 +103,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
   }
 ]
 ```
+- Status: `200`
 
 - `GET http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
 - Response type:
@@ -121,6 +123,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
   }
 ]
 ```
+- Status: `200`
 
 - `GET http://localhost:3000/webhooks?offset=4&limit=2`
 - Response type:
@@ -152,6 +155,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
   }
 ]
 ```
+- Status: `200`
 
 ## Updating Jobs
 - `PUT http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
@@ -181,13 +185,16 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
   }
 ]
 ```
+- Status: `200`
 
 ## Removing Data
 - `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
 - Response type: `OK`
+- Status: `200`
 
 - `DELETE http://localhost:3000/webhooks`
 - Response type: `OK`
+- Status: `200`
 
 # Environment variables
 - `NODE_ENV (possible values: production or developpement)`

@@ -12,9 +12,6 @@ Siz Agenda is a Lightweight NodeJS Webhooks scheduler
 - [Getting jobs](#getting-jobs)
 - [Errors](#errors)
 
-# Note
-All functions excepted are only getting `req` and `res` in parameter.
-
 ## Creating Jobs
 ### createJob
 Creates a webhook with the given body

@@ -18,7 +18,7 @@ All functions excepted are only getting `req` and `res` in parameter.
 ## Creating Jobs
 ### createJob
 Creates a webhook with the given body
-#### Required body:
+##### Required body:
 - URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body

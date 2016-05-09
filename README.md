@@ -66,7 +66,22 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
    }
 }
 ```
-- Response type: `OK`
+- Response type:
+``` javascript
+[
+  {
+    "name": "webhook",
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "myurl.com",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": "...",
+    "lastFinishedAt": "...",
+    "nextRunAt": "2016-05-09T14:56:00.246Z"
+  }
+]
+```
 
 ## Getting Jobs
 - `GET http://localhost:3000/webhooks`
@@ -150,7 +165,22 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
    }
 }
 ```
-- Response type: `OK`
+- Response type:
+``` javascript
+[
+  {
+    "name": "webhook",
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "myurl.com",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": "...",
+    "lastFinishedAt": "...",
+    "nextRunAt": "2016-05-09T14:56:00.246Z"
+  }
+]
+```
 
 ## Removing Data
 - `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`

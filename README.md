@@ -39,14 +39,13 @@ app.listen(3000, function () {
 ## Table of Contents
 - [Creating jobs](#creating-jobs)
 - [Updating jobs](#updating-jobs)
-- [Removing jobs](#removing-jobs)
-- [Paginate data](#paginate-data)
+- [Removing jobs](#removing-jobs)-
 - [Getting jobs](#getting-jobs)
 - [List of errors](#list-of-errors)
 - [Examples](#examples)
 
 # Note
-All functions excepted `paginate` are only getting `req` and `res` in parameter.
+All functions excepted are only getting `req` and `res` in parameter.
 
 ## Creating Jobs
 ### JobManager.createJob

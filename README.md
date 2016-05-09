@@ -9,7 +9,7 @@ Siz Agenda is a Lightweight NodeJS POST Webhooks scheduler
 ```javascript
 var express = require('express')
 var app = express()
-var JobManger = require('job-manager')
+var JobManger = require('./lib/job-manager')
 
 process.on('SIGTERM', JobManger.graceful)
 process.on('SIGINT', JobManger.graceful)
@@ -67,12 +67,6 @@ Updates a given webhooks with the new data
 ### JobManger.removeJobs
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
-## Paginate Data
-### JobManger.paginate(offset, limit, data)
-- `offset`: `number` is the beginning object number
-- `limit`: `number` maximum number of objects
-- `data`: `array` data to paginate
-
 ## Getting Jobs
 ### JobManger.getAllJobs
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
@@ -89,6 +83,112 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ## Remove jobs
 - `Unable to remove the job`
 - `Unable to remove jobs`
+
+# Examples
+## Create Job
+- Making a POST Request to `http://localhost:3000/webhooks`
+Data :
+``` javascript
+{  
+   "url": "myurl.com",
+   "scheduling": "* * * * *",
+   "body": {  
+      "hello":"world"
+   }
+}
+```
+- Response type: `OK`
+
+## Getting Jobs
+- Making a GET Request to `http://localhost:3000/webhooks` to get all data
+- Response type:
+``` javascript
+[
+  {
+    "name": "webhook",
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "myurl.com",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": "...",
+    "lastFinishedAt": "...",
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  }
+]
+```
+
+- Making a GET Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to get a specific job
+- Response type:
+``` javascript
+[
+  {
+    "name": "webhook",
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "myurl.com",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": "...",
+    "lastFinishedAt": "...",
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  }
+]
+```
+
+- Making a GET Request to `http://localhost:3000/webhooks?offset=4&limit=2` to get paginated data
+- Response type:
+``` javascript
+[
+  {
+    "name": "webhook",
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "myurl.com",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": "...",
+    "lastFinishedAt": "...",
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  },
+  {
+    "name": "webhook",
+    "id": "5730a487a3dc0e13009c0a46",
+    "url": "myurl.com",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": "...",
+    "lastFinishedAt": "...",
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  }
+]
+```
+
+## Updating Jobs
+- Making a PUT Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+Data :
+``` javascript
+{  
+   "url": "myurl.com",
+   "scheduling": "in 2 minutes",
+   "body": {  
+      "hello":"world"
+   }
+}
+```
+- Response type: `OK`
+
+## Removing Data
+- Making a DELETE Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to remove a specific job
+- Response type: `OK`
+
+- Making a DELETE Request to `http://localhost:3000/webhooks` to remove all jobs
+- Response type: `OK`
 
 # Environment variables
 - `NODE_ENV (possible values: production or developpement)`

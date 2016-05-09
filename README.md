@@ -51,7 +51,7 @@ All functions excepted are only getting `req` and `res` in parameter.
 ### JobManager.createJob
 Creates a webhook with the given data
 #### Required data: An Object who contains:
-- Url
+- URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 
@@ -59,7 +59,7 @@ Creates a webhook with the given data
 ### JobManger.updateJob
 Updates a given webhooks with the new data
 ##### Required data: An Object who contains:
-- Url
+- URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 

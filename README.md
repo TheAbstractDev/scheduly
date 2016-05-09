@@ -4,42 +4,11 @@ Siz Agenda is a Lightweight NodeJS Webhooks scheduler
 ### Prerequisite
 - [Docker] (https://www.docker.com)
 
-### Example Usage
-- Using Express
-```javascript
-var express = require('express')
-var app = express()
-var JobManger = require('./lib/job-manager')
-
-process.on('SIGTERM', JobManger.graceful)
-process.on('SIGINT', JobManger.graceful)
-
-JobManger.start()
-
-app.get('/', JobManger.getAllJobs)
-
-app.get('/webhooks', JobManger.getAllJobs)
-
-app.get('/webhooks/:id', JobManger.getAllJobs)
-
-app.post('/webhooks', JobManger.createJob)
-
-app.put('/webhooks/:id', JobManger.updateJob)
-
-app.delete('/webhooks/:id', JobManger.removeJobs)
-
-app.delete('/webhooks', JobManger.removeJobs)
-
-app.listen(3000, function () {
-  console.log('Server running on http://localhost:3000')
-})
-```
-
 # Full documentation
 ## Table of Contents
 - [Creating jobs](#creating-jobs)
 - [Updating jobs](#updating-jobs)
-- [Removing jobs](#removing-jobs)-
+- [Removing jobs](#removing-jobs)
 - [Getting jobs](#getting-jobs)
 - [List of errors](#list-of-errors)
 - [Examples](#examples)
@@ -48,27 +17,27 @@ app.listen(3000, function () {
 All functions excepted are only getting `req` and `res` in parameter.
 
 ## Creating Jobs
-### JobManager.createJob
-Creates a webhook with the given data
-#### Required data: An Object who contains:
+### createJob
+Creates a webhook with the given body
+#### Required body: An Object who contains:
 - URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 
 ## Updating Jobs
-### JobManger.updateJob
-Updates a given webhooks with the new data
-##### Required data: An Object who contains:
+### updateJob
+Updates a given webhooks with the new body
+##### Required body: An Object who contains:
 - URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 
 ## Removing Jobs
-### JobManger.removeJobs
+### removeJobs
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
 ## Getting Jobs
-### JobManger.getAllJobs
+### getAllJobs
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
 
 # List of errors
@@ -86,8 +55,8 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 
 # Examples
 ## Creating a Job
-- Making a `POST` Request to `http://localhost:3000/webhooks`
-- Data :
+- `POST http://localhost:3000/webhooks`
+- Body :
 ``` javascript
 {  
    "url": "myurl.com",
@@ -100,7 +69,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Response type: `OK`
 
 ## Getting Jobs
-- Making a `GET` Request to `http://localhost:3000/webhooks` to get all data
+- `GET http://localhost:3000/webhooks`
 - Response type:
 ``` javascript
 [
@@ -119,7 +88,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ]
 ```
 
-- Making a `GET` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to get a specific job
+- `GET http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
 - Response type:
 ``` javascript
 [
@@ -138,7 +107,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ]
 ```
 
-- Making a `GET` Request to `http://localhost:3000/webhooks?offset=4&limit=2` to get paginated data
+- `GET http://localhost:3000/webhooks?offset=4&limit=2`
 - Response type:
 ``` javascript
 [
@@ -170,8 +139,8 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ```
 
 ## Updating Jobs
-- Making a `PUT` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
-- Data :
+- `PUT http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- Body :
 ``` javascript
 {  
    "url": "myurl.com",
@@ -184,10 +153,10 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Response type: `OK`
 
 ## Removing Data
-- Making a `DELETE` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to remove a specific job
+- `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
 - Response type: `OK`
 
-- Making a `DELETE` Request to `http://localhost:3000/webhooks` to remove all jobs
+- `DELETE http://localhost:3000/webhooks`
 - Response type: `OK`
 
 # Environment variables

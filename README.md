@@ -66,7 +66,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Response type: `Missing required parameters`
 - Status: `400`
 
-
+---------------------------------------
 - `POST http://localhost:3000/webhooks`
 - Body :
 ``` javascript
@@ -101,6 +101,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Response type: `Unable to remove the job`
 - Status: `400`
 
+---------------------------------------
 - `DELETE http://localhost:3000/webhooks`
 - Response type: `Unable to remove jobs`
 - Status: `400`

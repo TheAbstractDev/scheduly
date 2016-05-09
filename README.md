@@ -41,7 +41,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 
 # Errors
 ## Creating a Job
-- `POST http://localhost:3000/webhooks`
+- `POST http://localhost:8080/webhooks`
 - Body :
 ``` javascript
 {  
@@ -53,7 +53,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Status: `400`
 
 ---------------------------------------
-- `POST http://localhost:3000/webhooks`
+- `POST http://localhost:8080/webhooks`
 - Body :
 ``` javascript
 {
@@ -68,7 +68,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Status: `400`
 
 ## Updating Jobs
-- `PUT http://localhost:3000/webhooks/azerty`
+- `PUT http://localhost:8080/webhooks/azerty`
 - Body :
 ``` javascript
 {  
@@ -83,12 +83,12 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Status: `400`
 
 ## Removing Data
-- `DELETE http://localhost:3000/webhooks/azerty`
+- `DELETE http://localhost:8080/webhooks/azerty`
 - Response type: `No job to remove`
 - Status: `400`
 
 ---------------------------------------
-- `DELETE http://localhost:3000/webhooks`
+- `DELETE http://localhost:8080/webhooks`
 - Response type: `No jobs to remove`
 - Status: `400`
 

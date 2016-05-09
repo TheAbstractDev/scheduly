@@ -79,17 +79,17 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
    }
 }
 ```
-- Response type: `Unable to update the job`
+- Response type: `No jobs to update`
 - Status: `400`
 
 ## Removing Data
 - `DELETE http://localhost:3000/webhooks/azerty`
-- Response type: `Unable to remove the job`
+- Response type: `No job to remove`
 - Status: `400`
 
 ---------------------------------------
 - `DELETE http://localhost:3000/webhooks`
-- Response type: `Unable to remove jobs`
+- Response type: `No jobs to remove`
 - Status: `400`
 
 # Environment variables

@@ -1,5 +1,5 @@
 # Siz Agenda
-Siz Agenda is a Lightweight NodeJS POST Webhooks scheduler
+Siz Agenda is a Lightweight NodeJS Webhooks scheduler
 
 ### Prerequisite
 - [Docker] (https://www.docker.com)

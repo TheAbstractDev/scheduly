@@ -86,7 +86,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 
 # Examples
 ## Creating a Job
-- Making a POST Request to `http://localhost:3000/webhooks`
+- Making a `POST` Request to `http://localhost:3000/webhooks`
 Data :
 ``` javascript
 {  
@@ -100,7 +100,7 @@ Data :
 - Response type: `OK`
 
 ## Getting Jobs
-- Making a GET Request to `http://localhost:3000/webhooks` to get all data
+- Making a `GET` Request to `http://localhost:3000/webhooks` to get all data
 - Response type:
 ``` javascript
 [
@@ -119,7 +119,7 @@ Data :
 ]
 ```
 
-- Making a GET Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to get a specific job
+- Making a `GET` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to get a specific job
 - Response type:
 ``` javascript
 [
@@ -138,7 +138,7 @@ Data :
 ]
 ```
 
-- Making a GET Request to `http://localhost:3000/webhooks?offset=4&limit=2` to get paginated data
+- Making a `GET` Request to `http://localhost:3000/webhooks?offset=4&limit=2` to get paginated data
 - Response type:
 ``` javascript
 [
@@ -170,7 +170,7 @@ Data :
 ```
 
 ## Updating Jobs
-- Making a PUT Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- Making a `PUT` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
 Data :
 ``` javascript
 {  
@@ -184,10 +184,10 @@ Data :
 - Response type: `OK`
 
 ## Removing Data
-- Making a DELETE Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to remove a specific job
+- Making a `DELETE` Request to `http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45` to remove a specific job
 - Response type: `OK`
 
-- Making a DELETE Request to `http://localhost:3000/webhooks` to remove all jobs
+- Making a `DELETE` Request to `http://localhost:3000/webhooks` to remove all jobs
 - Response type: `OK`
 
 # Environment variables

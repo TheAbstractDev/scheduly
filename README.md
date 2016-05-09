@@ -36,7 +36,7 @@ Updates a given webhooks with the new body
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
 ## Getting Jobs
-### getAllJobs
+### getJobs
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
 
 # Errors

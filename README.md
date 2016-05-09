@@ -43,6 +43,7 @@ app.listen(3000, function () {
 - [Paginate data](#paginate-data)
 - [Getting jobs](#getting-jobs)
 - [List of errors](#list-of-errors)
+- [Examples](#examples)
 
 # Note
 All functions excepted `paginate` are only getting `req` and `res` in parameter.

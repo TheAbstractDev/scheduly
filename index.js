@@ -26,11 +26,11 @@ process.on('SIGINT', JobManager.graceful)
 
 JobManager.start()
 
-app.get('/', JobManager.getAllJobs)
+app.get('/', JobManager.getJobs)
 
-app.get('/webhooks', JobManager.getAllJobs)
+app.get('/webhooks', JobManager.getJobs)
 
-app.get('/webhooks/:id', JobManager.getAllJobs)
+app.get('/webhooks/:id', JobManager.getJobs)
 
 app.post('/webhooks', JobManager.createJob)
 

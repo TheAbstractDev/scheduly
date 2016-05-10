@@ -246,12 +246,17 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 
 ## Getting Jobs
 - `GET http://localhost:8080/webhooks/azerty`
-- Response type: `Job not found`
+- Response type: `No job`
 - Status: `400`
 
 ---------------------------------------
 - `GET http://localhost:8080/webhooks`
-- Response type: `Jobs not found`
+- Response type: `No jobs`
+- Status: `400`
+
+---------------------------------------
+- `GET http://localhost:8080/webhooks?offset=0&limit=4`
+- Response type: `No jobs`
 - Status: `400`
 
 ## Removing Jobs

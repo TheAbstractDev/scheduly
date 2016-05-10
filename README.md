@@ -20,9 +20,7 @@ Creates a webhook with the given body
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 
-***
-
-If the scheduling interval is at the cron format, the job will be executed every Scheduling Interval else.
+If the scheduling interval is at the cron format, the job will be executed every Scheduling Interval else. <br/>
 If the scheduling inverval is at the human interval format, the job will be executed once at the scheduling Interval
 
 ## Updating Jobs
@@ -33,9 +31,7 @@ Updates a given webhooks with the new body
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 
-***
-
-If the Scheduling interval is at the cron format, the job will be executed every Scheduling Interval else.
+If the Scheduling interval is at the cron format, the job will be executed every Scheduling Interval else. <br/>
 If the Scheduling inverval is at the human interval format, the job will be executed once at the scheduling Interval
 
 ## Removing Jobs

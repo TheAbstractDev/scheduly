@@ -21,6 +21,7 @@ Creates a webhook with the given body
 - Body
 
 ---------------------------------------
+##### Note
 - If the scheduling interval is at the cron format, the job will be executed every Scheduling Interval else.
 - If the scheduling inverval is at the human interval format, the job will be executed once at the scheduling Interval
 
@@ -33,6 +34,7 @@ Updates a given webhooks with the new body
 - Body
 
 ---------------------------------------
+##### Note
 - If the Scheduling interval is at the cron format, the job will be executed every Scheduling Interval else.
 - If the Scheduling inverval is at the human interval format, the job will be executed once at the scheduling Interval
 

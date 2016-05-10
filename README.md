@@ -110,12 +110,12 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ### Build
 `./build.sh`
 ### Run
-- `docker start mongo-agenda`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --link mongo-agenda:mongo node:onbuild`
+- `docker start mongo-scheduly`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --link mongo-scheduly:mongo node:onbuild`
 
 ## In production
 ### Build
 `./build.sh`
 ### Run
-- `docker start mongo-agenda`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app -e "NODE_ENV=production" --link mongo-agenda:mongo scheduly`
+- `docker start mongo-scheduly`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app -e "NODE_ENV=production" --link mongo-scheduly:mongo scheduly`

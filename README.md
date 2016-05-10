@@ -1,3 +1,5 @@
+![Scheduly](./assets/img/Scheduly.jpg)
+
 # Scheduly
 Scheduly is a Lightweight NodeJS Webhooks scheduler
 

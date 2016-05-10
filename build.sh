@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
-mkdir -p assets/prod/js/
-mkdir -p assets/prod/css/
-
-uglifyjs assets/dev/js/app.js -c -o assets/prod/js/app.js
-cleancss -o assets/prod/css/style.css assets/dev/css/style.css
+docker build -t scheduly .
+docker run --name mongo-scheduly -d mongo
+docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly npm install
+docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly ./minify.sh

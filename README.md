@@ -14,7 +14,7 @@ Siz Agenda is a Lightweight NodeJS Webhooks scheduler
 
 ## Creating Jobs
 ### createJob
-Creates a webhook with the given body returns the jobs.
+Creates a webhook with the given body and returns the jobs.
 ##### Required body:
 - URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))

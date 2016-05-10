@@ -8,8 +8,9 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 
 # Deployement
 ## Environment variables
-- `NODE_ENV (possible values: production or developpement)`
-- `IP (default localhost)`
+- `DOCKER_URL`(required)
+- `NODE_ENV` (possible values: production or developpement)
+- `IP` (default localhost)
 
 ## In production
 ### Build

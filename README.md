@@ -22,8 +22,8 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 ## Table of Contents
 - [Creating jobs](#creating-jobs)
 - [Updating jobs](#updating-jobs)
-- [Removing jobs](#removing-jobs)
 - [Getting jobs](#getting-jobs)
+- [Removing jobs](#removing-jobs)
 - [Errors](#errors)
 
 ## Creating Jobs
@@ -110,19 +110,6 @@ Updates a given webhooks with the new body and returns the jobs updated.
 - If `scheduling interval` is at the cron format, the job will be executed every `scheduling interval`.
 - If `scheduling inverval` is at the human interval format, the job will be executed once at `scheduling interval`.
 
-## Removing Jobs
-Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
-
-## Example
-- `DELETE http://localhost:3000/webhooks`
-- Response type: `OK`
-- Status: `200`
-
----------------------------------------
-- `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
-- Response type: `OK`
-- Status: `200`
-
 ## Getting Jobs
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
 
@@ -201,6 +188,19 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ```
 - Status: `200`
 
+## Removing Jobs
+Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
+
+## Example
+- `DELETE http://localhost:3000/webhooks`
+- Response type: `OK`
+- Status: `200`
+
+---------------------------------------
+- `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- Response type: `OK`
+- Status: `200`
+
 # Errors
 ## Creating a Job
 - `POST http://localhost:8080/webhooks`
@@ -242,6 +242,16 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 }
 ```
 - Response type: `No jobs to update`
+- Status: `400`
+
+## Getting Jobs
+- `GET http://localhost:8080/webhooks/azerty`
+- Response type: `Job not found`
+- Status: `400`
+
+---------------------------------------
+- `GET http://localhost:8080/webhooks`
+- Response type: `Jobs not found`
 - Status: `400`
 
 ## Removing Jobs

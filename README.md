@@ -7,12 +7,9 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 - [Docker] (https://www.docker.com)
 
 # Deployement
-## In development
-### Build
-`./build.sh`
-### Run
-- `docker start mongo-scheduly`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --link mongo-scheduly:mongo node:onbuild`
+## Environment variables
+- `NODE_ENV (possible values: production or developpement)`
+- `IP (default localhost)`
 
 ## In production
 ### Build
@@ -257,6 +254,9 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Response type: `No jobs to remove`
 - Status: `400`
 
-# Environment variables
-- `NODE_ENV (possible values: production or developpement)`
-- `IP (default localhost)`
+# Deploy in development
+### Build
+`./build.sh`
+### Run
+- `docker start mongo-scheduly`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --link mongo-scheduly:mongo node:onbuild`

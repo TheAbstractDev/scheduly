@@ -1,5 +1,5 @@
 # Scheduly
-Scheduly Agenda is a Lightweight NodeJS Webhooks scheduler
+Scheduly is a Lightweight NodeJS Webhooks scheduler
 
 ### Prerequisite
 - [Docker] (https://www.docker.com)

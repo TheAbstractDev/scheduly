@@ -1,5 +1,5 @@
-# Siz Agenda
-Siz Agenda is a Lightweight NodeJS Webhooks scheduler
+# Scheduly
+Scheduly Agenda is a Lightweight NodeJS Webhooks scheduler
 
 ### Prerequisite
 - [Docker] (https://www.docker.com)
@@ -106,24 +106,24 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 # Deployement
 ## In development
 ### Build
-- `docker build -t siz-agenda .`
+- `docker build -t scheduly .`
 - `docker run --name mongo-agenda -d mongo`
 
 ### Install modules
-`docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app siz-agenda npm install`
+`docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly npm install`
 ### Render minified files
-`docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app siz-agenda ./build.sh`
+`docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly ./build.sh`
 ### Run
 - `docker start mongo-agenda`
 - `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --link mongo-agenda:mongo node:onbuild`
 
 ## In production
 ### Build
-- `docker build -t siz-agenda .`
+- `docker build -t scheduly .`
 - `docker run --name mongo-agenda -d mongo`
 
 ### Render minified files
-`docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app siz-agenda ./build.sh`
+`docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly ./build.sh`
 ### Run
 - `docker start mongo-agenda`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app -e "NODE_ENV=production" --link mongo-agenda:mongo siz-agenda`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app -e "NODE_ENV=production" --link mongo-agenda:mongo scheduly`

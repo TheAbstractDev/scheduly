@@ -8,7 +8,7 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 
 # Deployement
 ## Environment variables
-- `MONGO_URL`(required)
+- `MONGO_URL`
 - `NODE_ENV` (possible values: production or developpement)
 - `IP` (default localhost)
 

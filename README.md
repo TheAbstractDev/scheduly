@@ -16,7 +16,7 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 ### Build
 `./build.sh`
 ### Run
-`./run.sh "production" "YOUR MONGO URL"`
+`./run.sh "production" "mongodb://<YOUR MONGO URL>"`
 
 # Full documentation
 ## Table of Contents
@@ -273,4 +273,4 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 ### Build
 `./build.sh`
 ### Run
-`./run.sh "developpement" "YOUR MONGO URL"`
+`./run.sh "developpement" "mongodb://<YOUR MONGO URL>"`

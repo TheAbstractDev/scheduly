@@ -16,8 +16,7 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 ### Build
 `./build.sh`
 ### Run
-- `docker start mongo-scheduly`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app -e "NODE_ENV=production" --link mongo-scheduly:mongo scheduly`
+- `./run.sh "production" "YOUR MONGO URL"`
 
 # Full documentation
 ## Table of Contents
@@ -274,5 +273,4 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 ### Build
 `./build.sh`
 ### Run
-- `docker start mongo-scheduly`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --link mongo-scheduly:mongo node:onbuild`
+- `./run.sh "developpement" "YOUR MONGO URL"`

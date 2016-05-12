@@ -276,7 +276,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 
 ## Prerequisite
 - [NodeJS] (https://nodejs.org)
-- [MongoDB] (https://www.mongodb.com/)
+- [MongoDB] (https://www.mongodb.com/) <br/>
 OR
 - [Docker] (https://www.docker.com)
 
@@ -288,6 +288,7 @@ OR
 - `./minify.sh`
 
 ## Run
+- `mongod`
 - `MONGO_URL=mongodb://<YOUR MONGO URL> npm start`
 
 ## Docker

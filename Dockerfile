@@ -6,7 +6,6 @@ RUN npm install -g clean-css
 RUN mkdir -p assets/prod/js/
 RUN mkdir -p assets/prod/css/
 
-RUN uglifyjs assets/dev/js/app.js -c -o assets/prod/js/app.js
-RUN cleancss -o assets/prod/css/style.css assets/dev/css/style.css
+CMD bash minify.sh && npm start
 
 EXPOSE 8080

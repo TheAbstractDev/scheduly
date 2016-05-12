@@ -75,8 +75,5 @@ app.listen(8080, function () {
       console.error('Your ip address is not valid')
       process.exit(1)
     }
-  } else {
-    console.error('Missing MONGO URL')
-    process.exit(1)
   }
 })

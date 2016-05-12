@@ -8,6 +8,6 @@ RUN mkdir -p assets/prod/css/
 
 RUN npm install
 
-CMD bash minify.sh && npm start
+CMD bash minify.sh
 
 EXPOSE 8080

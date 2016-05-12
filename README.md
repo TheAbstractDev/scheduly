@@ -277,7 +277,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 ## Prerequisite
 - [NodeJS] (https://nodejs.org)
 - [MongoDB] (https://www.mongodb.com/) <br/>
-OR
+or
 - [Docker] (https://www.docker.com)
 
 ## NodeJS

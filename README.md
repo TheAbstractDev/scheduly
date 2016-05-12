@@ -281,7 +281,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - `./minify.sh`
 
 ## Run
-- `npm start`
+- `MONGO_URL=mongodb://<YOUR MONGO URL> npm start`
 
 ## Docker
 ### Build

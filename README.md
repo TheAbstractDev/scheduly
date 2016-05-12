@@ -296,3 +296,4 @@ or
 
 ### Run
 - `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "MONGO_URL=mongodb://<YOUR MONGO URL>" node:onbuild`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "MONGO_URL=mongodb://<YOUR MONGO URL>" node:onbuild npm install`

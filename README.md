@@ -27,6 +27,7 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 - [Getting jobs](#getting-jobs)
 - [Removing jobs](#removing-jobs)
 - [Errors](#errors)
+- [Deploy in development](#deploy-in-development)
 
 ## Creating Jobs
 Creates a webhook with the given body and returns the jobs.
@@ -277,7 +278,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - `npm install uglify-js -g`
 - `npm install clean-css`
 - `npm install`
-- `./minify.js`
+- `./minify.sh`
 
 ## Run
 - `npm start`

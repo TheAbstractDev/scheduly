@@ -14,9 +14,11 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 
 ## In production
 ### Build
-`./build.sh`
+- `docker build -t scheduly .`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly ./minify.sh`
+
 ### Run
-`./run.sh "production" "mongodb://<YOUR MONGO URL>"`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "NODE_ENV=production" -e "MONGO_URL=mongodb://<YOUR MONGO URL>" scheduly`
 
 # Full documentation
 ## Table of Contents
@@ -270,7 +272,21 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - Status: `400`
 
 # Deploy in development
+## NodeJS
 ### Build
-`./build.sh`
+- `npm install uglify-js -g`
+- `npm install clean-css`
+- `npm install`
+- `./minify.js`
+
+## Run
+- `npm start`
+
+## Docker
+### Build
+- `docker build -t scheduly .`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly npm install`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly ./minify.sh`
+
 ### Run
-`./run.sh "developpement" "mongodb://<YOUR MONGO URL>"`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "MONGO_URL=mongodb://<YOUR MONGO URL>" node:onbuild`

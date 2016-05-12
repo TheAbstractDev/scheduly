@@ -273,6 +273,13 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - Status: `400`
 
 # Deploy in development
+
+## Prerequisite
+- [NodeJS] (https://nodejs.org)
+- [MongoDB] (https://www.mongodb.com/)
+OR
+- [Docker] (https://www.docker.com)
+
 ## NodeJS
 ### Build
 - `npm install uglify-js -g`

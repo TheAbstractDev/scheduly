@@ -6,9 +6,9 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 # Prerequisite
 - [Docker] (https://www.docker.com)
 
-# Deployement
+# Deploy in production
 ## Environment variables
-- `MONGO_URL`
+- `MONGO_URL` (default: `mongodb://localhost/agenda`)
 - `NODE_ENV` (possible values: production or developpement)
 - `IP` (default localhost)
 
@@ -278,6 +278,11 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - [MongoDB] (https://www.mongodb.com/) <br/>
 or
 - [Docker] (https://www.docker.com)
+
+## Environment variables
+- `MONGO_URL` (default: `mongodb://localhost/agenda`)
+- `NODE_ENV` (possible values: production or developpement)
+- `IP` (default localhost)
 
 ## NodeJS
 ### Build

@@ -287,7 +287,7 @@ or
 - `./minify.sh`
 
 ## Run
-- `mongod`
+- `mongod` (on an other terminal)
 - `MONGO_URL=mongodb://<YOUR MONGO URL> npm start`
 
 ## Docker

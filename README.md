@@ -15,7 +15,6 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 ## In production
 ### Build
 - `docker build -t scheduly .`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly npm install`
 
 ### Run
 - `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "NODE_ENV=production" -e "MONGO_URL=mongodb://<YOUR MONGO URL>" scheduly`
@@ -296,5 +295,4 @@ or
 - `docker build -t scheduly .`
 
 ### Run
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app node:onbuild npm install`
 - `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "MONGO_URL=mongodb://<YOUR MONGO URL>" node:onbuild`

@@ -7,7 +7,7 @@ var _ = require('lodash')
 var fs = require('fs')
 var md5 = require('md5')
 var app = express()
-var JobManager = require('./lib/job-manager')
+var WebhooksManager = require('./lib/webhooks-manager')
 
 // view engine setup
 hbs.registerHelper('assets', (process.env.NODE_ENV === 'production' ? _.memoize : _.identity)(function (filePath) {
@@ -21,24 +21,24 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'hbs')
 
-process.on('SIGTERM', JobManager.graceful)
-process.on('SIGINT', JobManager.graceful)
+process.on('SIGTERM', WebhooksManager.graceful)
+process.on('SIGINT', WebhooksManager.graceful)
 
-JobManager.start()
+WebhooksManager.start()
 
-app.get('/', JobManager.getJobs)
+app.get('/', WebhooksManager.getWebhooks)
 
-app.get('/webhooks', JobManager.getJobs)
+app.get('/webhooks', WebhooksManager.getWebhooks)
 
-app.get('/webhooks/:id', JobManager.getJobs)
+app.get('/webhooks/:id', WebhooksManager.getWebhooks)
 
-app.post('/webhooks', JobManager.createJob)
+app.post('/webhooks', WebhooksManager.createWebhooks)
 
-app.put('/webhooks/:id', JobManager.updateJob)
+app.put('/webhooks/:id', WebhooksManager.updateWebhooks)
 
-app.delete('/webhooks/:id', JobManager.removeJobs)
+app.delete('/webhooks/:id', WebhooksManager.removeWebhooks)
 
-app.delete('/webhooks', JobManager.removeJobs)
+app.delete('/webhooks', WebhooksManager.removeWebhooks)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

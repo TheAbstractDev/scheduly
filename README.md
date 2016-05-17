@@ -62,7 +62,7 @@ Creates a webhook with the given body and returns the jobs.
   }
 ]
 ```
-- Status: `200`
+- Status: `201`
 
 ---------------------------------------
 ##### Note:

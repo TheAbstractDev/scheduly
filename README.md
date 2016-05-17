@@ -128,7 +128,7 @@ Creates a webhook with the given body and returns the jobs.
 [
   'error': {
     message: 'test is not a valid time interval !',
-    status: 400
+    status: 403
   }
 ]
 ```

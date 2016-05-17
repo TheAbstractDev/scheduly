@@ -26,7 +26,6 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 - [Updating jobs](#updating-jobs)
 - [Getting jobs](#getting-jobs)
 - [Removing jobs](#removing-jobs)
-- [Errors](#errors)
 - [Deploy in development](#deploy-in-development)
 
 ## Creating Jobs
@@ -86,6 +85,7 @@ Creates a webhook with the given body and returns the jobs.
     message: 'Missing required parameter',
     status: 403
   }
+]
 ```
 
 ---------------------------------------
@@ -107,6 +107,7 @@ Creates a webhook with the given body and returns the jobs.
     message: 'test is not a valid time interval !',
     status: 400
   }
+]
 ```
 
 ## Updating Jobs
@@ -169,6 +170,7 @@ Updates a given webhooks with the new body and returns the jobs updated.
     message: 'No job to update',
     status: 404
   }
+]
 ```
 
 ## Getting Jobs
@@ -305,6 +307,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
     message: 'No job to remove',
     status: 404
   }
+]
 ```
 
 ---------------------------------------
@@ -316,6 +319,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
     message: 'No jobs to remove',
     status: 404
   }
+]
 ```
 
 # Deploy in development

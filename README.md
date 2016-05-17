@@ -289,6 +289,8 @@ or
 ## NodeJS
 ### Build
 - `npm install`
+- `npm run prebuild`
+- `npm run build-minified-files`
 
 ## Run
 - `mongod` (on an other terminal)

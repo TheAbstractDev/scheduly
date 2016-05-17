@@ -52,7 +52,6 @@ Creates a webhook with the given body and returns the jobs.
 ``` javascript
 [
   {
-    "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
     "url": "http://requestb.in/17jzptz1",
     "body": {
@@ -71,6 +70,45 @@ Creates a webhook with the given body and returns the jobs.
 - If `scheduling interval` is at the cron format, the job will be executed every `scheduling interval`.
 - If `scheduling inverval` is at the human interval format, the job will be executed once at `scheduling interval`.
 
+### Errors
+- `POST http://localhost:8080/webhooks`
+- Body :
+``` javascript
+{  
+   "url": "http://requestb.in/17jzptz1",
+   "scheduling": "* * * * *"
+}
+```
+- Response type: 
+``` javascript
+[
+  'error': {
+    message: 'Missing required parameter',
+    status: 403
+  }
+```
+
+---------------------------------------
+- `POST http://localhost:8080/webhooks`
+- Body :
+``` javascript
+{
+   "url": "http://requestb.in/17jzptz1",
+   "scheduling": "test",
+   "body": {  
+      "hello":"world"
+   }
+}
+```
+- Response type:
+``` javascript
+[
+  'error': {
+    message: 'test is not a valid time interval !',
+    status: 400
+  }
+```
+
 ## Updating Jobs
 Updates a given webhooks with the new body and returns the jobs updated.
 ##### Required body:
@@ -78,7 +116,7 @@ Updates a given webhooks with the new body and returns the jobs updated.
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
 - Body
 
-## Example
+### Example
 - `PUT http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Body :
 ``` javascript
@@ -94,7 +132,6 @@ Updates a given webhooks with the new body and returns the jobs updated.
 ``` javascript
 [
   {
-    "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
     "url": "http://requestb.in/17jzptz1",
     "body": {
@@ -113,16 +150,36 @@ Updates a given webhooks with the new body and returns the jobs updated.
 - If `scheduling interval` is at the cron format, the job will be executed every `scheduling interval`.
 - If `scheduling inverval` is at the human interval format, the job will be executed once at `scheduling interval`.
 
+### Errors
+- `PUT http://localhost:8080/webhooks/azerty`
+- Body :
+``` javascript
+{  
+   "url": "http://requestb.in/17jzptz1",
+   "scheduling": "in 2 minutes",
+   "body": {  
+      "hello":"world"
+   }
+}
+```
+- Response type:
+``` javascript
+[
+  'error': {
+    message: 'No job to update',
+    status: 404
+  }
+```
+
 ## Getting Jobs
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
 
-## Example
+### Example
 - `GET http://localhost:8080/webhooks`
 - Response type:
 ``` javascript
 [
   {
-    "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
     "url": "http://requestb.in/17jzptz1",
     "body": {
@@ -143,7 +200,6 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ``` javascript
 [
   {
-    "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
     "url": "http://requestb.in/17jzptz1",
     "body": {
@@ -164,7 +220,6 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ``` javascript
 [
   {
-    "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
     "url": "http://requestb.in/17jzptz1",
     "body": {
@@ -176,7 +231,6 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
     "status": "scheduled"
   },
   {
-    "name": "webhook",
     "id": "5730a487a3dc0e13009c0a46",
     "url": "http://requestb.in/17jzptz1",
     "body": {
@@ -194,83 +248,75 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ## Removing Jobs
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
-## Example
+### Example
 - `DELETE http://localhost:8080/webhooks`
-- Response type: `OK`
+- Response type:
+``` javascript
+[
+  {
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "http://requestb.in/17jzptz1",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": null,
+    "lastFinishedAt": null,
+    "nextRunAt": "2016-05-09T14:56:00.246Z"
+  },
+  {
+    "id": "5730a487a3dc0e13009c0a46",
+    "url": "http://requestb.in/17jzptz1",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": null,
+    "lastFinishedAt": null,
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  }
+]
+```
 - Status: `200`
 
 ---------------------------------------
 - `DELETE http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
-- Response type: `OK`
+``` javascript
+[
+  {
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "http://requestb.in/17jzptz1",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": null,
+    "lastFinishedAt": null,
+    "nextRunAt": "2016-05-09T14:56:00.246Z"
+  }
+]
+```
 - Status: `200`
 
-# Errors
-## Creating a Job
-- `POST http://localhost:8080/webhooks`
-- Body :
-``` javascript
-{  
-   "url": "http://requestb.in/17jzptz1",
-   "scheduling": "* * * * *"
-}
-```
-- Response type: `Missing required parameters`
-- Status: `400`
-
----------------------------------------
-- `POST http://localhost:8080/webhooks`
-- Body :
-``` javascript
-{
-   "url": "http://requestb.in/17jzptz1",
-   "scheduling": "test",
-   "body": {  
-      "hello":"world"
-   }
-}
-```
-- Response type: `test is not a valid time inteval !`
-- Status: `400`
-
-## Updating Jobs
-- `PUT http://localhost:8080/webhooks/azerty`
-- Body :
-``` javascript
-{  
-   "url": "http://requestb.in/17jzptz1",
-   "scheduling": "in 2 minutes",
-   "body": {  
-      "hello":"world"
-   }
-}
-```
-- Response type: `No jobs to update`
-- Status: `400`
-
-## Getting Jobs
-- `GET http://localhost:8080/webhooks/azerty`
-- Response type: `No job`
-- Status: `400`
-
----------------------------------------
-- `GET http://localhost:8080/webhooks`
-- Response type: `No jobs`
-- Status: `400`
-
----------------------------------------
-- `GET http://localhost:8080/webhooks?offset=0&limit=4`
-- Response type: `No jobs`
-- Status: `400`
-
-## Removing Jobs
+### Errors
 - `DELETE http://localhost:8080/webhooks/azerty`
-- Response type: `No job to remove`
-- Status: `400`
+- Response type:
+``` javascript
+[
+  'error': {
+    message: 'No job to remove',
+    status: 404
+  }
+```
 
 ---------------------------------------
 - `DELETE http://localhost:8080/webhooks`
-- Response type: `No jobs to remove`
-- Status: `400`
+- Response type:
+``` javascript
+[
+  'error': {
+    message: 'No jobs to remove',
+    status: 404
+  }
+```
 
 # Deploy in development
 

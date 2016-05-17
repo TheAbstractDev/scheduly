@@ -288,8 +288,6 @@ or
 
 ## NodeJS
 ### Build
-- `npm install -g uglify-js`
-- `npm install -g clean-css`
 - `npm install`
 
 ## Run

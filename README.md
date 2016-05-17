@@ -75,7 +75,30 @@ Creates a webhook with the given body and returns the jobs.
 ``` javascript
 {  
    "url": "http://requestb.in/17jzptz1",
-   "scheduling": "* * * * *"
+   "body": {  
+      "hello":"world"
+   }
+}
+```
+- Response type: 
+``` javascript
+[
+  'error': {
+    message: 'Missing required parameter',
+    status: 403
+  }
+]
+```
+
+---------------------------------------
+- `POST http://localhost:8080/webhooks`
+- Body :
+``` javascript
+{
+   "scheduling": "* * * * *",
+   "body": {  
+      "hello":"world"
+   }
 }
 ```
 - Response type: 

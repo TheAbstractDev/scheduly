@@ -6,7 +6,7 @@
   "scripts": {
     "test": "standard",
     "start": "node index.js",
-    "build-minified-files": "mkdir -p 'assets/prod/js/' mkdir -p 'assets/prod/css/' uglifyjs assets/dev/js/app.js -c -o assets/prod/js/app.js && cleancss -o assets/prod/css/style.css assets/dev/css/style.css"
+    "build-minified-files": "uglifyjs assets/dev/js/app.js -c -o assets/prod/js/app.js && cleancss -o assets/prod/css/style.css assets/dev/css/style.css"
   },
   "author": "",
   "license": "ISC",

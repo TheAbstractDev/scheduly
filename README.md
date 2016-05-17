@@ -9,7 +9,7 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 # Deploy in production
 ## Environment variables
 - `MONGO_URL` (default: `mongodb://localhost/agenda`)
-- `NODE_ENV` (values: `production` or `developpement)
+- `NODE_ENV` (values: `production` or `developpement`)
 - `IP` (default: `localhost`)
 - `PORT` (default: `8080`)
 
@@ -18,7 +18,7 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 - `docker build -t scheduly .`
 
 ### Run
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "NODE_ENV=production" -e "MONGO_URL=mongodb://<YOUR MONGO URL>" scheduly`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "NODE_ENV=production" scheduly`
 
 # Full documentation
 ## Table of Contents
@@ -293,12 +293,12 @@ or
 
 ## Run
 - `mongod` (on an other terminal)
-- `MONGO_URL=mongodb://<YOUR MONGO URL> npm start`
+- `npm start`
 
 ## Docker
 ### Build
 - `docker build -t scheduly .`
 
 ### Run
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app node:onbuild npm install`
-- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host -e "MONGO_URL=mongodb://<YOUR MONGO URL>" node:onbuild`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app scheduly npm install`
+- `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host scheduly`

@@ -67,7 +67,7 @@ app.use(function (err, req, res, next) {
   })
 })
 
-app.listen(8080, function () {
+app.listen(process.env.PORT || 8080, function () {
   if (process.env.MONGO_URL) {
     if (ip === 'localhost' || ip[0] === '1') {
       console.log('Server running on http://' + ip + ':8080')

@@ -14,6 +14,6 @@ RUN npm install
 
 COPY . /app
 
-CMD bash minify.sh && npm start
+RUN npm run build-minified-files
 
 EXPOSE 8080

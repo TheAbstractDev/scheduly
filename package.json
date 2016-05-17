@@ -1,11 +1,12 @@
 {
   "name": "scheduly",
   "version": "1.0.0",
-  "description": "",
+  "description": "Scheduly is a Lightweight NodeJS Webhooks scheduler",
   "main": "index.js",
   "scripts": {
     "test": "standard",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build-minified-files": "uglifyjs assets/dev/js/app.js -c -o assets/prod/js/app.js && cleancss -o assets/prod/css/style.css assets/dev/css/style.css"
   },
   "author": "",
   "license": "ISC",

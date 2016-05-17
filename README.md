@@ -9,8 +9,9 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 # Deploy in production
 ## Environment variables
 - `MONGO_URL` (default: `mongodb://localhost/agenda`)
-- `NODE_ENV` (possible values: production or developpement)
-- `IP` (default localhost)
+- `NODE_ENV` (values: `production` or `developpement)
+- `IP` (default: `localhost`)
+- `PORT` (default: `8080`)
 
 ## In production
 ### Build
@@ -36,11 +37,11 @@ Creates a webhook with the given body and returns the jobs.
 - Body
 
 ### Example
-- `POST http://localhost:3000/webhooks`
+- `POST http://localhost:8080/webhooks`
 - Body :
 ``` javascript
 {  
-   "url": "myurl.com",
+   "url": "http://requestb.in/17jzptz1",
    "scheduling": "* * * * *",
    "body": {  
       "hello":"world"
@@ -53,12 +54,12 @@ Creates a webhook with the given body and returns the jobs.
   {
     "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
+    "url": "http://requestb.in/17jzptz1",
     "body": {
       "hello": "world"
     },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
+    "lastRunAt": null,
+    "lastFinishedAt": null,
     "nextRunAt": "2016-05-09T14:56:00.246Z"
   }
 ]
@@ -78,11 +79,11 @@ Updates a given webhooks with the new body and returns the jobs updated.
 - Body
 
 ## Example
-- `PUT http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- `PUT http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Body :
 ``` javascript
 {  
-   "url": "myurl.com",
+   "url": "http://requestb.in/17jzptz1",
    "scheduling": "in 2 minutes",
    "body": {  
       "hello":"world"
@@ -95,12 +96,12 @@ Updates a given webhooks with the new body and returns the jobs updated.
   {
     "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
+    "url": "http://requestb.in/17jzptz1",
     "body": {
       "hello": "world"
     },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
+    "lastRunAt": null,
+    "lastFinishedAt": null,
     "nextRunAt": "2016-05-09T14:56:00.246Z"
   }
 ]
@@ -116,19 +117,19 @@ Updates a given webhooks with the new body and returns the jobs updated.
 If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
 
 ## Example
-- `GET http://localhost:3000/webhooks`
+- `GET http://localhost:8080/webhooks`
 - Response type:
 ``` javascript
 [
   {
     "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
+    "url": "http://requestb.in/17jzptz1",
     "body": {
       "hello": "world"
     },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
+    "lastRunAt": null,
+    "lastFinishedAt": null,
     "nextRunAt": "2016-05-09T14:56:00.246Z",
     "status": "scheduled"
   }
@@ -137,19 +138,19 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Status: `200`
 
 ---------------------------------------
-- `GET http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- `GET http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Response type:
 ``` javascript
 [
   {
     "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
+    "url": "http://requestb.in/17jzptz1",
     "body": {
       "hello": "world"
     },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
+    "lastRunAt": null,
+    "lastFinishedAt": null,
     "nextRunAt": "2016-05-09T14:56:00.246Z",
     "status": "scheduled"
   }
@@ -158,31 +159,31 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 - Status: `200`
 
 ---------------------------------------
-- `GET http://localhost:3000/webhooks?offset=4&limit=2`
+- `GET http://localhost:8080/webhooks?offset=4&limit=2`
 - Response type:
 ``` javascript
 [
   {
     "name": "webhook",
     "id": "5730a487a3dc0e13009c0a45",
-    "url": "myurl.com",
+    "url": "http://requestb.in/17jzptz1",
     "body": {
       "hello": "world"
     },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
+    "lastRunAt": null,
+    "lastFinishedAt": null,
     "nextRunAt": "2016-05-09T14:56:00.246Z",
     "status": "scheduled"
   },
   {
     "name": "webhook",
     "id": "5730a487a3dc0e13009c0a46",
-    "url": "myurl.com",
+    "url": "http://requestb.in/17jzptz1",
     "body": {
       "hello": "world"
     },
-    "lastRunAt": "...",
-    "lastFinishedAt": "...",
+    "lastRunAt": null,
+    "lastFinishedAt": null,
     "nextRunAt": "2016-05-09T14:56:00.246Z",
     "status": "scheduled"
   }
@@ -194,12 +195,12 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
 ## Example
-- `DELETE http://localhost:3000/webhooks`
+- `DELETE http://localhost:8080/webhooks`
 - Response type: `OK`
 - Status: `200`
 
 ---------------------------------------
-- `DELETE http://localhost:3000/webhooks/5730a487a3dc0e13009c0a45`
+- `DELETE http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Response type: `OK`
 - Status: `200`
 
@@ -209,7 +210,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - Body :
 ``` javascript
 {  
-   "url": "myurl.com",
+   "url": "http://requestb.in/17jzptz1",
    "scheduling": "* * * * *"
 }
 ```
@@ -221,7 +222,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - Body :
 ``` javascript
 {
-   "url": "myurl.com",
+   "url": "http://requestb.in/17jzptz1",
    "scheduling": "test",
    "body": {  
       "hello":"world"
@@ -236,7 +237,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - Body :
 ``` javascript
 {  
-   "url": "myurl.com",
+   "url": "http://requestb.in/17jzptz1",
    "scheduling": "in 2 minutes",
    "body": {  
       "hello":"world"
@@ -281,15 +282,15 @@ or
 
 ## Environment variables
 - `MONGO_URL` (default: `mongodb://localhost/agenda`)
-- `NODE_ENV` (possible values: production or developpement)
-- `IP` (default localhost)
+- `NODE_ENV` (values: `production` or `developpement`)
+- `IP` (default: `localhost`)
+- `PORT` (default: `8080`)
 
 ## NodeJS
 ### Build
 - `npm install -g uglify-js`
 - `npm install -g clean-css`
 - `npm install`
-- `./minify.sh`
 
 ## Run
 - `mongod` (on an other terminal)

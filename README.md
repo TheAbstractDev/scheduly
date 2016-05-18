@@ -372,6 +372,8 @@ or
 ### Build
 - `docker build -t scheduly .`
 
-### Run
+### Install node modules
 - `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app node:onbuild npm install`
+
+### Run
 - `docker run --rm -ti -p 8080:8080 -v "$PWD":/usr/src/app --net host scheduly`

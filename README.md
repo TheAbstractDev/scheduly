@@ -82,12 +82,12 @@ Creates a webhooks with the given body.
 ```
 - Response type: 
 ``` javascript
-[
+{
   'error': {
     message: 'Missing required parameter',
     status: 403
   }
-]
+}
 ```
 
 ---------------------------------------
@@ -103,12 +103,12 @@ Creates a webhooks with the given body.
 ```
 - Response type: 
 ``` javascript
-[
+{
   'error': {
     message: 'Missing required parameter',
     status: 403
   }
-]
+}
 ```
 
 ---------------------------------------
@@ -125,12 +125,12 @@ Creates a webhooks with the given body.
 ```
 - Response type:
 ``` javascript
-[
+{
   'error': {
     message: 'test is not a valid time interval !',
     status: 403
   }
-]
+}
 ```
 
 ## Updating Webhooks
@@ -188,12 +188,12 @@ Updates a given webhooks with the new body.
 ```
 - Response type:
 ``` javascript
-[
+{
   'error': {
     message: 'No webhooks to update',
     status: 404
   }
-]
+}
 ```
 
 ## Getting Webhooks
@@ -325,12 +325,12 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - `DELETE http://localhost:8080/webhooks/azerty`
 - Response type:
 ``` javascript
-[
+{
   'error': {
     message: 'No webhooks to remove',
     status: 404
   }
-]
+}
 ```
 
 ---------------------------------------

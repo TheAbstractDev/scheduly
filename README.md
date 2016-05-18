@@ -1,7 +1,7 @@
 ![Scheduly](./assets/img/Scheduly.png)
 
 # Scheduly
-Scheduly is a Lightweight NodeJS Webhooks scheduler
+Scheduly is a Lightweight NodeJS webhooks scheduler
 
 # Prerequisite
 - [Docker] (https://www.docker.com)
@@ -22,14 +22,14 @@ Scheduly is a Lightweight NodeJS Webhooks scheduler
 
 # Full documentation
 ## Table of Contents
-- [Creating jobs](#creating-jobs)
-- [Updating jobs](#updating-jobs)
-- [Getting jobs](#getting-jobs)
-- [Removing jobs](#removing-jobs)
+- [Creating webhooks](#creating-webhooks)
+- [Updating webhooks](#updating-webhooks)
+- [Getting webhooks](#getting-webhooks)
+- [Removing webhooks](#removing-webhooks)
 - [Deploy in development](#deploy-in-development)
 
-## Creating Jobs
-Creates a webhook with the given body and returns the jobs.
+## Creating Webhooks
+Creates a webhooks with the given body.
 ##### Required body:
 - URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
@@ -66,8 +66,8 @@ Creates a webhook with the given body and returns the jobs.
 
 ---------------------------------------
 ##### Note:
-- If `scheduling interval` is at the cron format, the job will be executed every `scheduling interval`.
-- If `scheduling inverval` is at the human interval format, the job will be executed once at `scheduling interval`.
+- If `scheduling interval` is at the cron format, the webhooks will be executed every `scheduling interval`.
+- If `scheduling inverval` is at the human interval format, the webhooks will be executed once at `scheduling interval`.
 
 ### Errors
 - `POST http://localhost:8080/webhooks`
@@ -133,8 +133,8 @@ Creates a webhook with the given body and returns the jobs.
 ]
 ```
 
-## Updating Jobs
-Updates a given webhooks with the new body and returns the jobs updated.
+## Updating Webhooks
+Updates a given webhooks with the new body.
 ##### Required body:
 - URL
 - Scheduling Interval ([cron format] (http://www.nncron.ru/help/EN/working/cron-format.htm) or [human interval] (https://github.com/rschmukler/human-interval))
@@ -171,8 +171,8 @@ Updates a given webhooks with the new body and returns the jobs updated.
 
 ---------------------------------------
 ##### Note:
-- If `scheduling interval` is at the cron format, the job will be executed every `scheduling interval`.
-- If `scheduling inverval` is at the human interval format, the job will be executed once at `scheduling interval`.
+- If `scheduling interval` is at the cron format, the webhooks will be executed every `scheduling interval`.
+- If `scheduling inverval` is at the human interval format, the webhooks will be executed once at `scheduling interval`.
 
 ### Errors
 - `PUT http://localhost:8080/webhooks/azerty`
@@ -190,14 +190,14 @@ Updates a given webhooks with the new body and returns the jobs updated.
 ``` javascript
 [
   'error': {
-    message: 'No job to update',
+    message: 'No webhooks to update',
     status: 404
   }
 ]
 ```
 
-## Getting Jobs
-If a query parameters (`offset` and `limit`) are given, returns paginated jobs or returns all jobs
+## Getting Webhooks
+If a query parameters (`offset` and `limit`) are given, returns paginated webhooks or returns all webhooks
 
 ### Example
 - `GET http://localhost:8080/webhooks`
@@ -270,7 +270,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated jobs o
 ```
 - Status: `200`
 
-## Removing Jobs
+## Removing Webhooks
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
 ### Example
@@ -327,7 +327,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 ``` javascript
 [
   'error': {
-    message: 'No job to remove',
+    message: 'No webhooks to remove',
     status: 404
   }
 ]
@@ -339,7 +339,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 ``` javascript
 [
   'error': {
-    message: 'No jobs to remove',
+    message: 'No webhooks to remove',
     status: 404
   }
 ]

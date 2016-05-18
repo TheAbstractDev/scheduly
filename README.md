@@ -337,12 +337,12 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - `DELETE http://localhost:8080/webhooks`
 - Response type:
 ``` javascript
-[
+{
   'error': {
     message: 'No webhooks to remove',
     status: 404
   }
-]
+}
 ```
 
 # Deploy in development

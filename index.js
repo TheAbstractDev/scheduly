@@ -68,12 +68,10 @@ app.use(function (err, req, res, next) {
 })
 
 app.listen(process.env.PORT || 8080, function () {
-  if (process.env.MONGO_URL) {
-    if (ip === 'localhost' || ip[0] === '1') {
-      console.log('Server running on http://' + ip + ':8080')
-    } else if (ip !== 'localhost' && ip[0] !== '1') {
-      console.error('Your ip address is not valid')
-      process.exit(1)
-    }
+  if (ip === 'localhost' || ip[0] === '1') {
+    console.log('Server running on http://' + ip + ':8080')
+  } else if (ip !== 'localhost' && ip[0] !== '1') {
+    console.error('Your ip address is not valid')
+    process.exit(1)
   }
 })

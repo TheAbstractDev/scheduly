@@ -1,7 +1,7 @@
 {
   "name": "scheduly",
   "version": "1.0.0",
-  "description": "Scheduly is a Lightweight NodeJS Webhooks scheduler",
+  "description": "Scheduly is a Lightweight NodeJS webhooks scheduler",
   "main": "index.js",
   "scripts": {
     "test": "standard",

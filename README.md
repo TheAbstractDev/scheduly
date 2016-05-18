@@ -361,8 +361,7 @@ or
 
 ## NodeJS
 ### Build
-- `npm install`
-- `npm run build-minified-files`
+- `npm run build`
 
 ## Run
 - `mongod` (on an other terminal)

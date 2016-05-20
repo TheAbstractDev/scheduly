@@ -49,7 +49,7 @@ Creates a webhooks with the given body.
 ```
 - Response:
 ``` javascript
-Status: 201 <br/>
+Status: 201
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -82,7 +82,7 @@ Status: 201 <br/>
 ```
 - Response: 
 ``` javascript
-Status: 400 <br/>
+Status: 400
 {
   'error': {
     message: 'Missing required parameter'
@@ -103,7 +103,7 @@ Status: 400 <br/>
 ```
 - Response: 
 ``` javascript
-Status: 400 <br/>
+Status: 400
 {
   'error': {
     message: 'Missing required parameter'
@@ -125,7 +125,7 @@ Status: 400 <br/>
 ```
 - Response:
 ``` javascript
-Status: 400 <br/>
+Status: 400
 {
   'error': {
     message: 'test is not a valid time interval !'
@@ -154,7 +154,7 @@ Updates a given webhooks with the new body.
 ```
 - Response:
 ``` javascript
-Status: 200 <br/>
+Status: 200
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -188,7 +188,7 @@ Status: 200 <br/>
 ```
 - Response:
 ``` javascript
-Status: 404 <br/>
+Status: 404
 {
   'error': {
     message: 'No webhooks to update'
@@ -203,7 +203,7 @@ If a query parameters (`offset` and `limit`) are given, returns paginated webhoo
 - `GET http://localhost:8080/webhooks`
 - Response:
 ``` javascript
-Status: 200 <br/>
+Status: 200
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -223,7 +223,7 @@ Status: 200 <br/>
 - `GET http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Response:
 ``` javascript
-Status: 200 <br/>
+Status: 200
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -243,7 +243,7 @@ Status: 200 <br/>
 - `GET http://localhost:8080/webhooks?offset=4&limit=2`
 - Response:
 ``` javascript
-Status: 200 <br/>
+Status: 200
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -277,7 +277,7 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
 - `DELETE http://localhost:8080/webhooks`
 - Response:
 ``` javascript
-Status: 200 <br/>
+Status: 200
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -324,7 +324,7 @@ Status: 200 <br/>
 - `DELETE http://localhost:8080/webhooks/azerty`
 - Response:
 ``` javascript
-Status: 404 <br/>
+Status: 404
 {
   'error': {
     message: 'No webhooks to remove'
@@ -336,7 +336,7 @@ Status: 404 <br/>
 - `DELETE http://localhost:8080/webhooks`
 - Response:
 ``` javascript
-Status: 404 <br/>
+Status: 404
 {
   'error': {
     message: 'No webhooks to remove'

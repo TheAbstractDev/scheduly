@@ -47,8 +47,9 @@ Creates a webhooks with the given body.
    }
 }
 ```
-- Response type:
+- Response:
 ``` javascript
+Status: 201 <br/>
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -62,7 +63,6 @@ Creates a webhooks with the given body.
   }
 ]
 ```
-- Status: `201`
 
 ---------------------------------------
 ##### Note:
@@ -80,12 +80,12 @@ Creates a webhooks with the given body.
    }
 }
 ```
-- Response type: 
+- Response: 
 ``` javascript
+Status: 400 <br/>
 {
   'error': {
-    message: 'Missing required parameter',
-    status: 403
+    message: 'Missing required parameter'
   }
 }
 ```
@@ -101,12 +101,12 @@ Creates a webhooks with the given body.
    }
 }
 ```
-- Response type: 
+- Response: 
 ``` javascript
+Status: 400 <br/>
 {
   'error': {
-    message: 'Missing required parameter',
-    status: 403
+    message: 'Missing required parameter'
   }
 }
 ```
@@ -123,12 +123,12 @@ Creates a webhooks with the given body.
    }
 }
 ```
-- Response type:
+- Response:
 ``` javascript
+Status: 400 <br/>
 {
   'error': {
-    message: 'test is not a valid time interval !',
-    status: 403
+    message: 'test is not a valid time interval !'
   }
 }
 ```
@@ -152,8 +152,9 @@ Updates a given webhooks with the new body.
    }
 }
 ```
-- Response type:
+- Response:
 ``` javascript
+Status: 200 <br/>
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -167,7 +168,6 @@ Updates a given webhooks with the new body.
   }
 ]
 ```
-- Status: `200`
 
 ---------------------------------------
 ##### Note:
@@ -186,12 +186,12 @@ Updates a given webhooks with the new body.
    }
 }
 ```
-- Response type:
+- Response:
 ``` javascript
+Status: 404 <br/>
 {
   'error': {
-    message: 'No webhooks to update',
-    status: 404
+    message: 'No webhooks to update'
   }
 }
 ```
@@ -201,8 +201,9 @@ If a query parameters (`offset` and `limit`) are given, returns paginated webhoo
 
 ### Example
 - `GET http://localhost:8080/webhooks`
-- Response type:
+- Response:
 ``` javascript
+Status: 200 <br/>
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -217,12 +218,12 @@ If a query parameters (`offset` and `limit`) are given, returns paginated webhoo
   }
 ]
 ```
-- Status: `200`
 
 ---------------------------------------
 - `GET http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
-- Response type:
+- Response:
 ``` javascript
+Status: 200 <br/>
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -237,12 +238,12 @@ If a query parameters (`offset` and `limit`) are given, returns paginated webhoo
   }
 ]
 ```
-- Status: `200`
 
 ---------------------------------------
 - `GET http://localhost:8080/webhooks?offset=4&limit=2`
-- Response type:
+- Response:
 ``` javascript
+Status: 200 <br/>
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -268,15 +269,15 @@ If a query parameters (`offset` and `limit`) are given, returns paginated webhoo
   }
 ]
 ```
-- Status: `200`
 
 ## Removing Webhooks
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
 ### Example
 - `DELETE http://localhost:8080/webhooks`
-- Response type:
+- Response:
 ``` javascript
+Status: 200 <br/>
 [
   {
     "id": "5730a487a3dc0e13009c0a45",
@@ -301,7 +302,6 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
   }
 ]
 ```
-- Status: `200`
 
 ---------------------------------------
 - `DELETE http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
@@ -319,28 +319,27 @@ Removes the given webhooks if a query parameter (`id`) is given or removes all w
   }
 ]
 ```
-- Status: `200`
 
 ### Errors
 - `DELETE http://localhost:8080/webhooks/azerty`
-- Response type:
+- Response:
 ``` javascript
+Status: 404 <br/>
 {
   'error': {
-    message: 'No webhooks to remove',
-    status: 404
+    message: 'No webhooks to remove'
   }
 }
 ```
 
 ---------------------------------------
 - `DELETE http://localhost:8080/webhooks`
-- Response type:
+- Response:
 ``` javascript
+Status: 404 <br/>
 {
   'error': {
-    message: 'No webhooks to remove',
-    status: 404
+    message: 'No webhooks to remove'
   }
 }
 ```

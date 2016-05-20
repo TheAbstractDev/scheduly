@@ -175,7 +175,7 @@ Status: 200
 - If `scheduling inverval` is at the human interval format, the webhooks will be executed once at `scheduling interval`.
 
 ### Errors
-- `PUT http://localhost:8080/webhooks/azerty`
+- `PUT http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Body :
 ``` javascript
 {  
@@ -192,6 +192,28 @@ Status: 404
 {
   'error': {
     message: 'No webhooks to update'
+  }
+}
+```
+
+---------------------------------------
+- `PUT http://localhost:8080/webhooks/azerty`
+- Body :
+``` javascript
+{  
+   "url": "http://requestb.in/1nlqxcr1",
+   "scheduling": "in 2 minutes",
+   "body": {  
+      "hello":"world"
+   }
+}
+```
+- Response:
+``` javascript
+Status: 404
+{
+  'error': {
+    message: 'Invalid webhooks id'
   }
 }
 ```
@@ -270,6 +292,18 @@ Status: 200
 ]
 ```
 
+### Errors
+- `GET http://localhost:8080/webhooks/azerty`
+- Response:
+``` javascript
+Status: 404
+{
+  'error': {
+    message: 'Invalid webhooks id'
+  }
+}
+```
+
 ## Removing Webhooks
 Removes the given webhooks if a query parameter (`id`) is given or removes all webhooks
 
@@ -321,7 +355,7 @@ Status: 200
 ```
 
 ### Errors
-- `DELETE http://localhost:8080/webhooks/azerty`
+- `DELETE http://localhost:8080/webhooks/5730a487a3dc0e13009c0a45`
 - Response:
 ``` javascript
 Status: 404
@@ -340,6 +374,18 @@ Status: 404
 {
   'error': {
     message: 'No webhooks to remove'
+  }
+}
+```
+
+---------------------------------------
+- `DELETE http://localhost:8080/azerty`
+- Response:
+``` javascript
+Status: 404
+{
+  'error': {
+    message: 'Invalid webhooks id'
   }
 }
 ```

@@ -262,7 +262,37 @@ Status: 200
 ```
 
 ---------------------------------------
-- `GET http://localhost:8080/webhooks?offset=4&limit=2`
+- `GET http://localhost:8080/webhooks?previous_cursor=5730a487a3dc0e13009c0a45&next_cursor=5730a487a3dc0e13009c0a45`
+- Response:
+``` javascript
+Status: 200
+[
+  {
+    "id": "5730a487a3dc0e13009c0a45",
+    "url": "http://requestb.in/1nlqxcr1",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": null,
+    "lastFinishedAt": null,
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  },
+  {
+    "id": "5730a487a3dc0e13009c0a46",
+    "url": "http://requestb.in/1nlqxcr1",
+    "body": {
+      "hello": "world"
+    },
+    "lastRunAt": null,
+    "lastFinishedAt": null,
+    "nextRunAt": "2016-05-09T14:56:00.246Z",
+    "status": "scheduled"
+  }
+]
+```
+---------------------------------------
+- `GET http://localhost:8080/webhooks?limit=2`
 - Response:
 ``` javascript
 Status: 200

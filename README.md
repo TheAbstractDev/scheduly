@@ -219,7 +219,7 @@ Status: 404
 ```
 
 ## Getting Webhooks
-If a query parameters (`offset` and `limit`) are given, returns paginated webhooks or returns all webhooks
+Returns webhooks
 
 ### Example
 - `GET http://localhost:8080/webhooks`
